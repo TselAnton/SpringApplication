@@ -1,4 +1,4 @@
-package com.tsel.app.entities.taxi;
+package com.tsel.app.entity.transport.taxi;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

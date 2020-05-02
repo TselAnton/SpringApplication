@@ -1,4 +1,4 @@
-package com.tsel.app.entities;
+package com.tsel.app.entity.transport;
 
 public interface Transport {
 
@@ -6,6 +6,4 @@ public interface Transport {
     String getColor();
     Double getAverageSpeed();
     String getCarModel();
-
-    String currentStatus();
 }
