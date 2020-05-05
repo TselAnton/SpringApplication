@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Описание классов автомобилей -->
+    <bean class="com.tsel.app.entity.transport.taxi.TaxiCarClass" id="DEFAULT">
+        <constructor-arg value="Обычный городской автомобиль"/>
+        <constructor-arg value="20.0"/>
+    </bean>
+    <bean class="com.tsel.app.entity.transport.taxi.TaxiCarClass" id="COMFORT">
+        <constructor-arg value="Автомобиль с повышенным комфортом"/>
+        <constructor-arg value="50.0"/>
+    </bean>
+    <bean class="com.tsel.app.entity.transport.taxi.TaxiCarClass" id="BUSINESS">
+        <constructor-arg value="Автомобиль бизнес-класса"/>
+        <constructor-arg value="100.0"/>
+    </bean>
+    <bean class="com.tsel.app.entity.transport.taxi.TaxiCarClass" id="PREMIUM">
+        <constructor-arg value="Премиум автомобиль"/>
+        <constructor-arg value="500.0"/>
+    </bean>
+
+    <!-- Создание бинов таксистов -->
+    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_1">
+        <constructor-arg name="carNumber" value="ав326г"/>
+        <constructor-arg name="color" value="Синий"/>
+        <constructor-arg name="carModel" value="Lada"/>
+        <constructor-arg name="driverName" value="Васильков Анатолий Васильевич"/>
+        <constructor-arg name="averageSpeed" value="60.0"/>
+        <constructor-arg name="fuelPerKilometer" value="0.095"/>
+        <constructor-arg name="isChildSeat" value="true"/>
+        <constructor-arg name="carClass" ref="DEFAULT"/>
+    </bean>
+    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_2">
+        <constructor-arg name="carNumber" value="ер312у"/>
+        <constructor-arg name="color" value="Бирюзовый"/>
+        <constructor-arg name="carModel" value="Lada"/>
+        <constructor-arg name="driverName" value="Хлебопечкин Антон Генадьевич"/>
+        <constructor-arg name="averageSpeed" value="73.0"/>
+        <constructor-arg name="fuelPerKilometer" value="0.098"/>
+        <constructor-arg name="isChildSeat" value="true"/>
+        <constructor-arg name="carClass" ref="DEFAULT"/>
+    </bean>
+    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_3">
+        <constructor-arg name="carNumber" value="гг666а"/>
+        <constructor-arg name="color" value="Чёрный"/>
+        <constructor-arg name="carModel" value="Toyota"/>
+        <constructor-arg name="driverName" value="Каблучков Кирилл Сергеевич"/>
+        <constructor-arg name="averageSpeed" value="80.0"/>
+        <constructor-arg name="fuelPerKilometer" value="0.105"/>
+        <constructor-arg name="isChildSeat" value="false"/>
+        <constructor-arg name="carClass" ref="COMFORT"/>
+    </bean>
+    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_4">
+        <constructor-arg name="carNumber" value="ее845у"/>
+        <constructor-arg name="color" value="Серобуромалиновый"/>
+        <constructor-arg name="carModel" value="Volkswagen"/>
+        <constructor-arg name="driverName" value="Пупыкин Петр Федосьевич"/>
+        <constructor-arg name="averageSpeed" value="93.0"/>
+        <constructor-arg name="fuelPerKilometer" value="0.112"/>
+        <constructor-arg name="isChildSeat" value="true"/>
+        <constructor-arg name="carClass" ref="COMFORT"/>
+    </bean>
+    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_5">
+        <constructor-arg name="carNumber" value="ст192а"/>
+        <constructor-arg name="color" value="Белый"/>
+        <constructor-arg name="carModel" value="Mercedes"/>
+        <constructor-arg name="driverName" value="Крутой Георгий Анатольевич"/>
+        <constructor-arg name="averageSpeed" value="100.0"/>
+        <constructor-arg name="fuelPerKilometer" value="0.120"/>
+        <constructor-arg name="isChildSeat" value="false"/>
+        <constructor-arg name="carClass" ref="BUSINESS"/>
+    </bean>
+    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_6">
+        <constructor-arg name="carNumber" value="аа000а"/>
+        <constructor-arg name="color" value="Красный"/>
+        <constructor-arg name="carModel" value="Lamborghini"/>
+        <constructor-arg name="driverName" value="Карпов Владислав Евгеньевич"/>
+        <constructor-arg name="averageSpeed" value="120.0"/>
+        <constructor-arg name="fuelPerKilometer" value="0.150"/>
+        <constructor-arg name="isChildSeat" value="false"/>
+        <constructor-arg name="carClass" ref="PREMIUM"/>
+    </bean>
+</beans>
