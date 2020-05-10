@@ -5,6 +5,7 @@ import com.tsel.app.exception.NonExistentWayException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.Optional;
 import static java.lang.String.format;
 
 @Setter
+@Service
 @NoArgsConstructor
 @AllArgsConstructor
 public final class RouteService {

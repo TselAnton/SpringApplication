@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config />
+    <import resource="FileBufferUtilTestContext.xml"/>
+
+    <bean id="testCarClass" class="com.tsel.app.entity.taxi.TaxiCarClass">
+        <constructor-arg value="Тестовый класс такси"/>
+        <constructor-arg value="100.0"/>
+    </bean>
+
+    <bean id="testTaxi" class="com.tsel.app.entity.taxi.Taxi">
+        <constructor-arg name="carNumber" value="carNumber"/>
+        <constructor-arg name="color" value="color"/>
+        <constructor-arg name="carModel" value="carModel"/>
+        <constructor-arg name="driverName" value="driverName"/>
+        <constructor-arg name="averageSpeed" value="100.0"/>
+        <constructor-arg name="fuelPerKilometer" value="0.1"/>
+        <constructor-arg name="isChildSeat" value="true"/>
+        <constructor-arg name="carClass" ref="testCarClass"/>
+    </bean>
+
+    <bean id="testTimeService" class="com.tsel.app.service.TimeService"/>
+    <bean id="testTaxiService" class="com.tsel.app.service.TaxiService">
+        <constructor-arg name="timeService" ref="testTimeService"/>
+        <constructor-arg name="bufferUtil" ref="fileBuffer"/>
+        <constructor-arg name="taxis">
+            <set>
+                <ref bean="testTaxi"/>
+            </set>
+        </constructor-arg>
+    </bean>
+</beans>

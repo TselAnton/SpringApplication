@@ -1,4 +1,4 @@
-package com.tsel.app.entity.transport;
+package com.tsel.app.entity;
 
 import java.time.LocalTime;
 import java.util.Map;

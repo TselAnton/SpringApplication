@@ -1,6 +1,6 @@
-package com.tsel.app.entity.transport.community;
+package com.tsel.app.entity.community;
 
-import com.tsel.app.entity.transport.PublicTransport;
+import com.tsel.app.entity.PublicTransport;
 import com.tsel.app.service.RouteService;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,7 @@ import lombok.Setter;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ public abstract class AbstractPublicTransport implements PublicTransport {
     private String color;
 
     private Double averageSpeed;
+    private Double fuelPerKilometer;
     private Integer numberOfSeats;
     private Double costByTicket;
 
@@ -33,6 +35,7 @@ public abstract class AbstractPublicTransport implements PublicTransport {
                                    String carModel,
                                    String color,
                                    Double averageSpeed,
+                                   Double fuelPerKilometer,
                                    Integer numberOfSeats,
                                    Double costByTicket,
                                    String routeNumber,
@@ -44,6 +47,7 @@ public abstract class AbstractPublicTransport implements PublicTransport {
         this.carModel = carModel;
         this.color = color;
         this.averageSpeed = averageSpeed;
+        this.fuelPerKilometer = fuelPerKilometer;
         this.numberOfSeats = numberOfSeats;
         this.costByTicket = costByTicket;
         this.routeNumber = routeNumber;
@@ -51,5 +55,30 @@ public abstract class AbstractPublicTransport implements PublicTransport {
         this.routeEndTime = LocalTime.parse(routeEndTime);
         this.routeService = routeService;
         this.routeMap = routeService.getPath(route);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AbstractPublicTransport that = (AbstractPublicTransport) o;
+        return carNumber.equals(that.carNumber) &&
+                carModel.equals(that.carModel) &&
+                color.equals(that.color) &&
+                averageSpeed.equals(that.averageSpeed) &&
+                fuelPerKilometer.equals(that.fuelPerKilometer) &&
+                numberOfSeats.equals(that.numberOfSeats) &&
+                costByTicket.equals(that.costByTicket) &&
+                routeNumber.equals(that.routeNumber) &&
+                routeMap.equals(that.routeMap) &&
+                routeList.equals(that.routeList) &&
+                routeStartTime.equals(that.routeStartTime) &&
+                routeEndTime.equals(that.routeEndTime) &&
+                routeService.equals(that.routeService);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(carNumber, carModel, color, averageSpeed, fuelPerKilometer, numberOfSeats, costByTicket, routeNumber, routeMap, routeList, routeStartTime, routeEndTime, routeService);
     }
 }
