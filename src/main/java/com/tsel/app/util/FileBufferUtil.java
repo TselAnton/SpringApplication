@@ -3,6 +3,7 @@ package com.tsel.app.util;
 import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,8 +16,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 
+@Slf4j
 @Setter
 @AllArgsConstructor
 public final class FileBufferUtil {
@@ -66,7 +69,7 @@ public final class FileBufferUtil {
                 writer.write(json + "\n");
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(format("Can't add object \"%s\" to file \"%s\"", tClass.getName(), resolveFileName(tClass)), e);
             return false;
         }
         return true;
@@ -88,10 +91,9 @@ public final class FileBufferUtil {
                     objList.add(GSON.fromJson(json, tClass));
                 }
                 return objList;
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(format("Can't get object \"%s\" from file \"%s\"", tClass.getName(),
+                        resolveFileName(tClass)), e);
             }
         }
         return emptyList();
@@ -119,7 +121,7 @@ public final class FileBufferUtil {
             dir.mkdirs();
             file.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error(format("Can't create file \"%s\"", resolveFileName(tClass)), e);
         }
     }
 

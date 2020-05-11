@@ -28,6 +28,4 @@ public class BusService {
                 .filter(t -> t.getRouteNumber().equalsIgnoreCase(routeNumber))
                 .findFirst();
     }
-
-
 }

@@ -5,6 +5,7 @@ import com.tsel.app.entity.taxi.TaxiOrder;
 import com.tsel.app.util.FileBufferUtil;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
+@Slf4j
 @Getter
 @Setter
 @Service
@@ -57,6 +59,7 @@ public class TaxiService {
                 timeService.now(),
                 getEndTime(tripLength, freeTaxi));
 
+        log.debug("Created order {}", newOrder);
         bufferUtil.addObjectsToBuffEnd(TaxiOrder.class, singletonList(newOrder));
         return of(newOrder);
     }
@@ -68,6 +71,7 @@ public class TaxiService {
      */
     public Optional<TaxiOrder> getOrder(long orderNumb) {
         checkOrdersToEnded();
+        log.debug("Get order by orderNumb {}", orderNumb);
         return getOrders().stream()
                 .filter(order -> order.getOrderNumber() == orderNumb)
                 .findFirst();
@@ -80,6 +84,7 @@ public class TaxiService {
      */
     public boolean cancelOrder(long orderNumb) {
         checkOrdersToEnded();
+        log.debug("Cancel order by orderNumb {}", orderNumb);
         return getOrders().stream()
                 .filter(order -> order.getOrderNumber() == orderNumb)
                 .findAny()
@@ -90,7 +95,6 @@ public class TaxiService {
     private HashSet<TaxiOrder> getOrders() {
         return new HashSet<>(bufferUtil.getObjectsFromBuff(TaxiOrder.class));
     }
-
 
     private void checkOrdersToEnded() {
         HashSet<TaxiOrder> orders = getOrders();
