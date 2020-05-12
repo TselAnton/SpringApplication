@@ -1,14 +1,15 @@
 package com.tsel.app.entity;
 
 import java.time.LocalTime;
-import java.util.Map;
+import java.util.List;
 
 public interface PublicTransport extends Transport {
 
     Integer getNumberOfSeats();
     String getRouteNumber();
+    String getTransportType();
     Double getCostByTicket();
     LocalTime getRouteStartTime();
     LocalTime getRouteEndTime();
-    Map<String, Double> getRouteMap();
+    List<Integer> getRouteList();
 }

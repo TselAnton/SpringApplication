@@ -9,7 +9,7 @@
 
     <context:annotation-config />
 
-    <bean id="fileBuffer" class="com.tsel.app.util.FileBufferUtil">
+    <bean id="testFileBuffer" class="com.tsel.app.util.FileBufferUtil">
         <constructor-arg value="src/main/test/resources/buff/"/>
     </bean>
 </beans>

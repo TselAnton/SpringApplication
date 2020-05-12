@@ -1,13 +1,11 @@
 package com.tsel.app.util;
 
-import com.google.gson.Gson;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import static java.lang.String.format;
+import static java.util.Collections.emptyList;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.lang.String.format;
-import static java.util.Collections.emptyList;
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Setter
@@ -59,22 +57,6 @@ public final class FileBufferUtil {
         return addObjectsToFile(tClass, new ArrayList<>(tSet), true);
     }
 
-    private <T> boolean addObjectsToFile(Class<T> tClass, List<T> tList, boolean appender) {
-        createFile(tClass);
-        try (FileWriter writer = new FileWriter(resolveFileName(tClass), appender)) {
-            List<String> jsonList = tList.stream()
-                    .map(GSON::toJson)
-                    .collect(Collectors.toList());
-            for (String json: jsonList) {
-                writer.write(json + "\n");
-            }
-        } catch (IOException e) {
-            log.error(format("Can't add object \"%s\" to file \"%s\"", tClass.getName(), resolveFileName(tClass)), e);
-            return false;
-        }
-        return true;
-    }
-
     /**
      * Получить объекты из файла
      * @param tClass Класс объекта
@@ -112,6 +94,22 @@ public final class FileBufferUtil {
     private <T> boolean isFileExist(Class<T> tClass) {
         File file = new File(resolveFileName(tClass));
         return file.exists() && file.isFile() && file.length() > 0;
+    }
+
+    private <T> boolean addObjectsToFile(Class<T> tClass, List<T> tList, boolean appender) {
+        createFile(tClass);
+        try (FileWriter writer = new FileWriter(resolveFileName(tClass), appender)) {
+            List<String> jsonList = tList.stream()
+                .map(GSON::toJson)
+                .collect(Collectors.toList());
+            for (String json: jsonList) {
+                writer.write(json + "\n");
+            }
+        } catch (IOException e) {
+            log.error(format("Can't add object \"%s\" to file \"%s\"", tClass.getName(), resolveFileName(tClass)), e);
+            return false;
+        }
+        return true;
     }
 
     private <T> void createFile(Class<T> tClass) {

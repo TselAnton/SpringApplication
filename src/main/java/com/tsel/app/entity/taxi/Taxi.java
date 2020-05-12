@@ -1,16 +1,16 @@
 package com.tsel.app.entity.taxi;
 
+import static java.lang.String.format;
+
 import com.tsel.app.entity.Transport;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Objects;
-
-import static java.lang.String.format;
-
 @Setter
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor
 public class Taxi implements Transport {
 
@@ -27,25 +27,5 @@ public class Taxi implements Transport {
     public String toString() {
         return format("%s %s цвет %s. Номер машины: %s. Водитель: %s",
                 carClass.getDescription(), carModel, color, carNumber, driverName);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Taxi taxi = (Taxi) o;
-        return isChildSeat == taxi.isChildSeat &&
-                carNumber.equals(taxi.carNumber) &&
-                color.equals(taxi.color) &&
-                carModel.equals(taxi.carModel) &&
-                averageSpeed.equals(taxi.averageSpeed) &&
-                fuelPerKilometer.equals(taxi.fuelPerKilometer) &&
-                driverName.equals(taxi.driverName) &&
-                carClass.equals(taxi.carClass);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(carNumber, color, carModel, averageSpeed, fuelPerKilometer, driverName, isChildSeat, carClass);
     }
 }

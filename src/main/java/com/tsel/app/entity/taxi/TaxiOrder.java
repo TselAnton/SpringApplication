@@ -1,16 +1,17 @@
 package com.tsel.app.entity.taxi;
 
-import lombok.Getter;
-import lombok.Setter;
+import static java.lang.String.format;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-
-import static java.lang.String.format;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 @Setter
 @Getter
+@EqualsAndHashCode
 public class TaxiOrder {
 
     private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -70,26 +71,5 @@ public class TaxiOrder {
         return format("%d. %s - Цена поездки: %s руб.%nТакси: %s%nСтатус заказа: %s. Время начала поездки: %s. Время конца поездки: %s. Длина пути: %.1f",
                 orderNumber, startTimeOfTrip.format(DATE_PATTERN), price, taxi.toString(), getOrderStatus(),
                 startTimeOfTrip.format(TIME_PATTERN), endTimeOfTrip.format(TIME_PATTERN), tripLength);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        TaxiOrder taxiOrder = (TaxiOrder) o;
-        return orderNumber == taxiOrder.orderNumber &&
-                Double.compare(taxiOrder.tripLength, tripLength) == 0 &&
-                Double.compare(taxiOrder.price, price) == 0 &&
-                isEnded == taxiOrder.isEnded &&
-                isCanceled == taxiOrder.isCanceled &&
-                taxi.equals(taxiOrder.taxi) &&
-                passengerFullName.equals(taxiOrder.passengerFullName) &&
-                startTimeOfTrip.equals(taxiOrder.startTimeOfTrip) &&
-                endTimeOfTrip.equals(taxiOrder.endTimeOfTrip);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(orderNumber, taxi, passengerFullName, tripLength, price, startTimeOfTrip, endTimeOfTrip, isEnded, isCanceled);
     }
 }

@@ -29,7 +29,7 @@
     <bean id="testTimeService" class="com.tsel.app.service.TimeService"/>
     <bean id="testTaxiService" class="com.tsel.app.service.TaxiService">
         <constructor-arg name="timeService" ref="testTimeService"/>
-        <constructor-arg name="bufferUtil" ref="fileBuffer"/>
+        <constructor-arg name="bufferUtil" ref="testFileBuffer"/>
         <constructor-arg name="taxis">
             <set>
                 <ref bean="testTaxi"/>

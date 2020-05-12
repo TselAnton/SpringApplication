@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="testRouteBuilder" class="com.tsel.app.util.RouteBuilder">
+    <property name="busStopName1" value="BusStop1"/>
+    <property name="busStopName2" value="BusStop2"/>
+    <property name="busStopName3" value="BusStop3"/>
+    <property name="busStopName4" value="BusStop4"/>
+    <property name="busStopName5" value="BusStop5"/>
+    <property name="busStopName6" value="BusStop6"/>
+    <property name="busStopName7" value="BusStop7"/>
+    <property name="busStopName8" value="BusStop8"/>
+    <property name="busStopName9" value="BusStop9"/>
+    <property name="busStopName10" value="BusStop10"/>
+    <property name="busStopName11" value="BusStop11"/>
+  </bean>
+</beans>

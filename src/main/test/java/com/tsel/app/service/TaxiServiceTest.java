@@ -1,8 +1,13 @@
 package com.tsel.app.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import com.tsel.app.entity.taxi.Taxi;
 import com.tsel.app.entity.taxi.TaxiOrder;
 import com.tsel.app.util.FileBufferUtil;
+import java.util.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +15,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Optional;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/test/resources/TaxiServiceTestContext.xml")
+@ContextConfiguration(locations = "file:src/main/test/resources/context/TaxiServiceTestContext.xml")
 public class TaxiServiceTest {
 
     @Autowired
