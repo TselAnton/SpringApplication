@@ -62,7 +62,8 @@
       abstract="true" init-method="init"/>
 
     <!-- Инициализация общественного транспорта -->
-    <bean id="Bus1" class="com.tsel.app.entity.community.Bus" parent="AbstractPublicTransport">
+    <bean id="Bus1" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" value="Автобус"/>
         <constructor-arg name="carNumber" value="еа123и"/>
         <constructor-arg name="carModel" value="Mercedes"/>
         <constructor-arg name="color" value="Белый"/>
@@ -75,7 +76,8 @@
         <constructor-arg name="routeEndTime" value="21:00:00"/>
         <constructor-arg name="routeList" ref="route1"/>
     </bean>
-    <bean id="Minibus1" class="com.tsel.app.entity.community.Minibus" parent="AbstractPublicTransport">
+    <bean id="Minibus1" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" value="Маршрутное такси"/>
         <constructor-arg name="carNumber" value="гд133н"/>
         <constructor-arg name="carModel" value="Peugeot"/>
         <constructor-arg name="color" value="Желтый"/>
@@ -88,7 +90,8 @@
         <constructor-arg name="routeEndTime" value="23:00:00"/>
         <constructor-arg name="routeList" ref="route2"/>
     </bean>
-    <bean id="Minibus2" class="com.tsel.app.entity.community.Minibus" parent="AbstractPublicTransport">
+    <bean id="Minibus2" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" value="Маршрутное такси"/>
         <constructor-arg name="carNumber" value="еж003в"/>
         <constructor-arg name="carModel" value="ГАЗ"/>
         <constructor-arg name="color" value="Желтый"/>
@@ -101,7 +104,8 @@
         <constructor-arg name="routeEndTime" value="23:00:00"/>
         <constructor-arg name="routeList" ref="route3"/>
     </bean>
-    <bean id="TrolleyBus1" class="com.tsel.app.entity.community.TrolleyBus" parent="AbstractPublicTransport">
+    <bean id="TrolleyBus1" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" value="Троллейбус"/>
         <constructor-arg name="carNumber" value="ун203г"/>
         <constructor-arg name="carModel" value="СВАРЗ"/>
         <constructor-arg name="color" value="Синий"/>

@@ -1,23 +1,24 @@
 package com.tsel.app.service;
 
+import com.tsel.app.entity.PublicTransport;
+import com.tsel.app.entity.community.PublicTransportRoute;
+import com.tsel.app.util.FileBufferUtil;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
 import static java.util.Collections.emptyList;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
-
-import com.tsel.app.entity.PublicTransport;
-import com.tsel.app.entity.community.PublicTransportRoute;
-import com.tsel.app.util.FileBufferUtil;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/test/resources/context/PublicTransportServiceTestContext.xml")
