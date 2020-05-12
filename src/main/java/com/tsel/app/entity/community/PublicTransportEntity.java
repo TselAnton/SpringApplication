@@ -2,15 +2,12 @@ package com.tsel.app.entity.community;
 
 import com.tsel.app.entity.PublicTransport;
 import com.tsel.app.util.RouteBuilder;
+import lombok.Data;
+
 import java.time.LocalTime;
 import java.util.List;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+@Data
 public class PublicTransportEntity implements PublicTransport {
 
     private String transportType;

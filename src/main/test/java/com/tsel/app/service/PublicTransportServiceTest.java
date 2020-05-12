@@ -77,13 +77,53 @@ public class PublicTransportServiceTest {
         LocalDate start = timeService.now().minusDays(2).toLocalDate();
         LocalDate end = timeService.now().minusDays(1).toLocalDate();
         List<PublicTransportRoute> route = service.getRoutesByTimePeriod("50", start, end);
-        assertEquals(route, emptyList());
+        assertEquals(emptyList(), route);
     }
 
-    //TODO: Дописать тест
+    @Test
+    public void getRoutesByTimePeriodShouldReturnEmptyWhenStartDateIsAfterEndDate() {
+        bufferUtil.clearBuff(PublicTransportRoute.class);
+        LocalDate end = timeService.now().minusDays(2).toLocalDate();
+        LocalDate start = timeService.now().minusDays(1).toLocalDate();
+        List<PublicTransportRoute> route = service.getRoutesByTimePeriod("1", start, end);
+        assertEquals(emptyList(), route);
+    }
 
-//    @Test
-//    public void getRoutesByTimePeriodShouldReturnEmpty() {
-//
-//    }
+    @Test
+    public void getRoutesByTimePeriodShouldReturnNotFullRouteListWhenEndDateAfterNow() {
+        bufferUtil.clearBuff(PublicTransportRoute.class);
+        LocalDate start = timeService.now().minusDays(2).toLocalDate();
+        LocalDate end = timeService.now().plusDays(1).toLocalDate();
+        List<PublicTransportRoute> route = service.getRoutesByTimePeriod("1", start, end);
+        assertEquals(2, route.size());
+        assertEquals(start, route.get(0).getDate());
+        assertEquals(start.plusDays(1), route.get(1).getDate());
+    }
+
+    @Test
+    public void getRoutesByTimePeriodShouldReturnFullRouteList() {
+        bufferUtil.clearBuff(PublicTransportRoute.class);
+        LocalDate start = timeService.now().minusDays(50).toLocalDate();
+        LocalDate end = timeService.now().toLocalDate();
+        List<PublicTransportRoute> route = service.getRoutesByTimePeriod("1", start, end);
+        assertEquals(50, route.size());
+    }
+
+    @Test
+    public void getCurrentLocationShouldReturnEmptyWhenTransportWithRouteNumberNotExist() {
+        Optional<String> location = service.getCurrentLocation("30");
+        assertFalse(location.isPresent());
+    }
+
+    @Test
+    public void getCurrentLocationShouldReturnNotWorkingMessage() {
+        String location = service.getCurrentLocation("2").orElse("");
+        assertTrue(location.contains("не работает в данный момент"));
+    }
+
+    @Test
+    public void getCurrentLocationShouldReturnRightPath() {
+        String location = service.getCurrentLocation("3").orElse("");
+        assertTrue("BusStop5 - BusStop9".equals(location) || "BusStop9 - BusStop5".equals(location));
+    }
 }

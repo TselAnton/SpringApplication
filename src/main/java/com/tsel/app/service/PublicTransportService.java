@@ -7,6 +7,7 @@ import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 import com.tsel.app.entity.PublicTransport;
+import com.tsel.app.entity.Transport;
 import com.tsel.app.entity.community.PublicTransportEntity;
 import com.tsel.app.entity.community.PublicTransportRoute;
 import com.tsel.app.util.FileBufferUtil;
@@ -26,14 +27,14 @@ import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Data
 @Slf4j
-@Getter
-@Setter
 @Service
 @AllArgsConstructor
 public class PublicTransportService {
@@ -78,11 +79,12 @@ public class PublicTransportService {
 
         Optional<PublicTransportRoute> route = getTransportRouteByDate(transport, date);
         if (!route.isPresent()) {
+            int countOfPassengers = countPassengers(transport);
             route = of(new PublicTransportRoute(
-                transport,
-                date,
-                countPassengers(transport),
-                countPathLength(transport))
+                    transport,
+                    date,
+                    countOfPassengers,
+                    countPathLength(transport, countOfPassengers))
             );
             bufferUtil.addObjectsToBuffEnd(PublicTransportRoute.class, singletonList(route.get()));
         }
@@ -106,6 +108,7 @@ public class PublicTransportService {
         if (endPeriod.isBefore(startPeriod)) {
             log.warn("Start date \"{}\" and end date \"{}\" are incorrect",
                 startPeriod.format(FORMATTER), endPeriod.format(FORMATTER));
+            return emptyList();
         }
 
         if (timeService.now().isBefore(LocalDateTime.of(endPeriod, LocalTime.parse("00:00:00")))) {
@@ -116,7 +119,7 @@ public class PublicTransportService {
         do {
             routeList.add(getRouteByDate(routeNumber, startPeriod).orElse(null));
             startPeriod = startPeriod.plusDays(1);
-        } while (!startPeriod.equals(endPeriod));
+        } while (startPeriod.isBefore(endPeriod));
 
         return routeList.stream()
             .filter(Objects::nonNull)
@@ -135,13 +138,13 @@ public class PublicTransportService {
             return empty();
         }
 
-        long workingTime = Duration.between(transport.getRouteStartTime(), timeService.now()).getSeconds();
-        if (workingTime < 0) {
+        if (isNotWorkingTime(transport)) {
             log.warn("Public Transport with number {} not working now", routeNumber);
             return of(format("%s под номером \"%s\" не работает в данный момент",
-                transport.getTransportType(), transport.getRouteNumber()));
+                    transport.getTransportType(), transport.getRouteNumber()));
         }
 
+        long workingTime = Duration.between(transport.getRouteStartTime(), timeService.now().toLocalTime()).getSeconds();
         double pathLength = workingTime * (transport.getAverageSpeed() / 3600.0);
         int counter = 0;
         int routeListSize = transport.getRouteList().size();
@@ -151,12 +154,20 @@ public class PublicTransportService {
                 transport.getRouteList().get((counter + 1) % routeListSize));
 
             if (pathLength - sizeBetweenPoints < 0) {
-                return of(routeBuilder.getRouteName(counter % routeListSize, (counter + 1) % routeListSize));
+                return of(routeBuilder.getRouteName(
+                        transport.getRouteList().get(counter % routeListSize),
+                        transport.getRouteList().get((counter + 1) % routeListSize))
+                );
             }
             pathLength -= sizeBetweenPoints;
             counter += 1;
         }
         return empty();
+    }
+
+    private boolean isNotWorkingTime(PublicTransportEntity transport) {
+        return transport.getRouteStartTime().isAfter(timeService.now().toLocalTime()) ||
+                transport.getRouteEndTime().isBefore(timeService.now().toLocalTime());
     }
 
     private Optional<PublicTransportRoute> getTransportRouteByDate(PublicTransportEntity publicTransport, LocalDate date) {
@@ -173,8 +184,9 @@ public class PublicTransportService {
             + (transport.getNumberOfSeats() * 10);
     }
 
-    private double countPathLength(PublicTransportEntity transport) {
+    private double countPathLength(PublicTransportEntity transport, int passengerCount) {
         long workingTime = Duration.between(transport.getRouteStartTime(), transport.getRouteEndTime()).getSeconds();
-        return (double)workingTime * (transport.getAverageSpeed() / 3600.0);
+        return (double)workingTime * ((transport.getAverageSpeed() + new Random().nextInt(20) *
+                        (passengerCount < transport.getNumberOfSeats() * 150 ? (-1) : 1)) / 3600.0);
     }
 }

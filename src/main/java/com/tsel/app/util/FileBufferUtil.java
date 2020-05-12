@@ -1,9 +1,10 @@
 package com.tsel.app.util;
 
-import static java.lang.String.format;
-import static java.util.Collections.emptyList;
-
 import com.google.gson.Gson;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,12 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
+import static java.lang.String.format;
+import static java.util.Collections.emptyList;
+
+@Data
 @Slf4j
-@Setter
 @AllArgsConstructor
 public final class FileBufferUtil {
 

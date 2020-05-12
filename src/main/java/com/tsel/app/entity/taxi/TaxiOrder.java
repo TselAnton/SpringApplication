@@ -1,17 +1,13 @@
 package com.tsel.app.entity.taxi;
 
-import static java.lang.String.format;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Setter
-@Getter
-@EqualsAndHashCode
+import static java.lang.String.format;
+
+@Data
 public class TaxiOrder {
 
     private static final DateTimeFormatter DATE_PATTERN = DateTimeFormatter.ofPattern("dd-MM-yyyy");

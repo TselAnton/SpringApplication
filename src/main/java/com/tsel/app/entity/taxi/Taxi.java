@@ -1,16 +1,12 @@
 package com.tsel.app.entity.taxi;
 
-import static java.lang.String.format;
-
 import com.tsel.app.entity.Transport;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
-@EqualsAndHashCode
+import static java.lang.String.format;
+
+@Data
 @AllArgsConstructor
 public class Taxi implements Transport {
 

@@ -1,14 +1,9 @@
 package com.tsel.app.entity.taxi;
 
-import java.util.Objects;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
-@EqualsAndHashCode
+@Data
 @AllArgsConstructor
 public class TaxiCarClass {
 

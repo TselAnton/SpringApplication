@@ -1,14 +1,11 @@
 package com.tsel.app.entity.community;
 
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@EqualsAndHashCode
+import java.time.LocalDate;
+
+@Data
 @AllArgsConstructor
 public class PublicTransportRoute {
 

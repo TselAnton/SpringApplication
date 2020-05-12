@@ -51,8 +51,8 @@
       <constructor-arg name="numberOfSeats" value="15"/>
       <constructor-arg name="costByTicket" value="30"/>
       <constructor-arg name="routeNumber" value="2"/>
-      <constructor-arg name="routeStartTime" value="08:00:00"/>
-      <constructor-arg name="routeEndTime" value="23:00:00"/>
+      <constructor-arg name="routeStartTime" value="00:00:01"/>
+      <constructor-arg name="routeEndTime" value="00:00:02"/>
       <constructor-arg name="routeList">
         <list>
           <value>11</value>
@@ -75,17 +75,12 @@
       <constructor-arg name="numberOfSeats" value="30"/>
       <constructor-arg name="costByTicket" value="25"/>
       <constructor-arg name="routeNumber" value="3"/>
-      <constructor-arg name="routeStartTime" value="06:00:00"/>
-      <constructor-arg name="routeEndTime" value="23:00:00"/>
+      <constructor-arg name="routeStartTime" value="00:00:00"/>
+      <constructor-arg name="routeEndTime" value="23:59:59"/>
       <constructor-arg name="routeList">
         <list>
           <value>5</value>
           <value>9</value>
-          <value>11</value>
-          <value>3</value>
-          <value>7</value>
-          <value>6</value>
-          <value>4</value>
         </list>
       </constructor-arg>
     </bean>

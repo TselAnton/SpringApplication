@@ -2,6 +2,8 @@ package com.tsel.app.service;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
  * Часы — реальные минуты
  * Минуты — реальные секунды
  */
+@Data
 @Service
 @NoArgsConstructor
 public final class TimeService {

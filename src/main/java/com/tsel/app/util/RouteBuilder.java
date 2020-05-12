@@ -4,10 +4,10 @@ import com.tsel.app.exception.RouteBuildException;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public final class RouteBuilder {
@@ -80,19 +80,22 @@ public final class RouteBuilder {
     }
 
     private String getPointName(Integer p) {
-        switch (p) {
-            case 1: return busStopName1;
-            case 2: return busStopName2;
-            case 3: return busStopName3;
-            case 4: return busStopName4;
-            case 5: return busStopName5;
-            case 6: return busStopName6;
-            case 7: return busStopName7;
-            case 8: return busStopName8;
-            case 9: return busStopName9;
-            case 10: return busStopName10;
-            case 11: return busStopName11;
-            default: return null;
-        }
+        if (p == 1 && isNotBlank(busStopName1)) return busStopName1;
+        else if (p == 2 && isNotBlank(busStopName2)) return busStopName2;
+        else if (p == 3 && isNotBlank(busStopName3)) return busStopName3;
+        else if (p == 4 && isNotBlank(busStopName4)) return busStopName4;
+        else if (p == 5 && isNotBlank(busStopName5)) return busStopName5;
+        else if (p == 6 && isNotBlank(busStopName6)) return busStopName6;
+        else if (p == 7 && isNotBlank(busStopName7)) return busStopName7;
+        else if (p == 8 && isNotBlank(busStopName8)) return busStopName8;
+        else if (p == 9 && isNotBlank(busStopName9)) return busStopName9;
+        else if (p == 10 && isNotBlank(busStopName10)) return busStopName10;
+        else if (p == 11 && isNotBlank(busStopName11)) return busStopName11;
+
+        return String.valueOf(p + 1);
+    }
+
+    private boolean isNotBlank(String str) {
+        return str != null && str.length() > 0;
     }
 }
