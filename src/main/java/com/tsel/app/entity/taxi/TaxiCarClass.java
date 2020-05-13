@@ -1,11 +1,9 @@
-package com.tsel.app.entity.transport.taxi;
+package com.tsel.app.entity.taxi;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+@Data
 @AllArgsConstructor
 public class TaxiCarClass {
 

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+      <context:annotation-config />
+
+      <bean id="testTimeService" class="com.tsel.app.service.TimeService"/>
+
+      <bean id="testFileBuffer" class="com.tsel.app.util.FileBufferUtil">
+        <constructor-arg value="src/main/test/resources/buff/"/>
+      </bean>
+
+      <bean id="testRouteBuilder" class="com.tsel.app.util.RouteBuilder">
+        <property name="busStopName1" value="BusStop1"/>
+        <property name="busStopName2" value="BusStop2"/>
+        <property name="busStopName3" value="BusStop3"/>
+        <property name="busStopName4" value="BusStop4"/>
+        <property name="busStopName5" value="BusStop5"/>
+        <property name="busStopName6" value="BusStop6"/>
+        <property name="busStopName7" value="BusStop7"/>
+        <property name="busStopName8" value="BusStop8"/>
+        <property name="busStopName9" value="BusStop9"/>
+        <property name="busStopName10" value="BusStop10"/>
+        <property name="busStopName11" value="BusStop11"/>
+      </bean>
+</beans>

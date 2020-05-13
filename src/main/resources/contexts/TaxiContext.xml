@@ -5,25 +5,25 @@
     http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- Описание классов автомобилей -->
-    <bean class="com.tsel.app.entity.transport.taxi.TaxiCarClass" id="DEFAULT">
+    <bean id="DEFAULT" class="com.tsel.app.entity.taxi.TaxiCarClass">
         <constructor-arg value="Обычный городской автомобиль"/>
         <constructor-arg value="20.0"/>
     </bean>
-    <bean class="com.tsel.app.entity.transport.taxi.TaxiCarClass" id="COMFORT">
+    <bean id="COMFORT" class="com.tsel.app.entity.taxi.TaxiCarClass">
         <constructor-arg value="Автомобиль с повышенным комфортом"/>
         <constructor-arg value="50.0"/>
     </bean>
-    <bean class="com.tsel.app.entity.transport.taxi.TaxiCarClass" id="BUSINESS">
+    <bean id="BUSINESS" class="com.tsel.app.entity.taxi.TaxiCarClass">
         <constructor-arg value="Автомобиль бизнес-класса"/>
         <constructor-arg value="100.0"/>
     </bean>
-    <bean class="com.tsel.app.entity.transport.taxi.TaxiCarClass" id="PREMIUM">
+    <bean id="PREMIUM" class="com.tsel.app.entity.taxi.TaxiCarClass">
         <constructor-arg value="Премиум автомобиль"/>
         <constructor-arg value="500.0"/>
     </bean>
 
     <!-- Создание бинов таксистов -->
-    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_1">
+    <bean id="Taxi1" class="com.tsel.app.entity.taxi.Taxi">
         <constructor-arg name="carNumber" value="ав326г"/>
         <constructor-arg name="color" value="Синий"/>
         <constructor-arg name="carModel" value="Lada"/>
@@ -33,7 +33,7 @@
         <constructor-arg name="isChildSeat" value="true"/>
         <constructor-arg name="carClass" ref="DEFAULT"/>
     </bean>
-    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_2">
+    <bean id="Taxi2" class="com.tsel.app.entity.taxi.Taxi">
         <constructor-arg name="carNumber" value="ер312у"/>
         <constructor-arg name="color" value="Бирюзовый"/>
         <constructor-arg name="carModel" value="Lada"/>
@@ -43,7 +43,7 @@
         <constructor-arg name="isChildSeat" value="true"/>
         <constructor-arg name="carClass" ref="DEFAULT"/>
     </bean>
-    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_3">
+    <bean id="Taxi3" class="com.tsel.app.entity.taxi.Taxi">
         <constructor-arg name="carNumber" value="гг666а"/>
         <constructor-arg name="color" value="Чёрный"/>
         <constructor-arg name="carModel" value="Toyota"/>
@@ -53,7 +53,7 @@
         <constructor-arg name="isChildSeat" value="false"/>
         <constructor-arg name="carClass" ref="COMFORT"/>
     </bean>
-    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_4">
+    <bean id="Taxi4" class="com.tsel.app.entity.taxi.Taxi">
         <constructor-arg name="carNumber" value="ее845у"/>
         <constructor-arg name="color" value="Серобуромалиновый"/>
         <constructor-arg name="carModel" value="Volkswagen"/>
@@ -63,7 +63,7 @@
         <constructor-arg name="isChildSeat" value="true"/>
         <constructor-arg name="carClass" ref="COMFORT"/>
     </bean>
-    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_5">
+    <bean id="Taxi5" class="com.tsel.app.entity.taxi.Taxi">
         <constructor-arg name="carNumber" value="ст192а"/>
         <constructor-arg name="color" value="Белый"/>
         <constructor-arg name="carModel" value="Mercedes"/>
@@ -73,7 +73,7 @@
         <constructor-arg name="isChildSeat" value="false"/>
         <constructor-arg name="carClass" ref="BUSINESS"/>
     </bean>
-    <bean class="com.tsel.app.entity.transport.taxi.Taxi" id="Taxi_6">
+    <bean id="Taxi6" class="com.tsel.app.entity.taxi.Taxi">
         <constructor-arg name="carNumber" value="аа000а"/>
         <constructor-arg name="color" value="Красный"/>
         <constructor-arg name="carModel" value="Lamborghini"/>

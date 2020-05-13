@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <!-- Инициализация билдера маршрута -->
+    <bean id="routeBuilder" class="com.tsel.app.util.RouteBuilder">
+        <property name="busStopName1" value="${busStop1}"/>
+        <property name="busStopName2" value="${busStop2}"/>
+        <property name="busStopName3" value="${busStop3}"/>
+        <property name="busStopName4" value="${busStop4}"/>
+        <property name="busStopName5" value="${busStop5}"/>
+        <property name="busStopName6" value="${busStop6}"/>
+        <property name="busStopName7" value="${busStop7}"/>
+        <property name="busStopName8" value="${busStop8}"/>
+        <property name="busStopName9" value="${busStop9}"/>
+        <property name="busStopName10" value="${busStop10}"/>
+        <property name="busStopName11" value="${busStop11}"/>
+    </bean>
+
+    <!-- Определение листов путей через utils для возможности переиспользования -->
+    <util:list id="route1" value-type="java.lang.Integer">
+        <value>1</value>
+        <value>2</value>
+        <value>3</value>
+        <value>4</value>
+        <value>7</value>
+        <value>8</value>
+        <value>10</value>
+    </util:list>
+    <util:list id="route2" value-type="java.lang.Integer">
+        <value>11</value>
+        <value>3</value>
+        <value>5</value>
+        <value>4</value>
+        <value>6</value>
+        <value>9</value>
+    </util:list>
+    <util:list id="route3" value-type="java.lang.Integer">
+        <value>8</value>
+        <value>4</value>
+        <value>5</value>
+        <value>2</value>
+        <value>9</value>
+    </util:list>
+    <util:list id="route4" value-type="java.lang.Integer">
+        <value>5</value>
+        <value>9</value>
+        <value>11</value>
+        <value>3</value>
+        <value>7</value>
+        <value>6</value>
+        <value>4</value>
+    </util:list>
+    <util:list id="route5" value-type="java.lang.Integer">
+        <value>1</value>
+        <value>10</value>
+        <value>9</value>
+        <value>7</value>
+        <value>4</value>
+        <value>3</value>
+        <value>11</value>
+    </util:list>
+
+    <!-- Типы публичного транспорта -->
+    <bean id="BUS" class="com.tsel.app.entity.community.PublicTransportType">
+        <constructor-arg value="Автобус"/>
+    </bean>
+    <bean id="TROLLEYBUS" class="com.tsel.app.entity.community.PublicTransportType">
+        <constructor-arg value="Троллейбус"/>
+    </bean>
+    <bean id="MINIBUS" class="com.tsel.app.entity.community.PublicTransportType">
+        <constructor-arg value="Микроавтобус"/>
+    </bean>
+    <bean id="TRAM" class="com.tsel.app.entity.community.PublicTransportType">
+        <constructor-arg value="Трамвай"/>
+    </bean>
+
+    <!-- Абстрактный бин для инициализации бинов общественного транспорта -->
+    <bean id="AbstractPublicTransport" class="com.tsel.app.entity.community.PublicTransportEntity"
+      abstract="true" init-method="init"/>
+
+    <!-- Инициализация общественного транспорта -->
+    <bean id="Bus1" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" ref="BUS"/>
+        <constructor-arg name="carNumber" value="еа123и"/>
+        <constructor-arg name="carModel" value="Mercedes"/>
+        <constructor-arg name="color" value="Белый"/>
+        <constructor-arg name="averageSpeed" value="55"/>
+        <constructor-arg name="fuelPerKilometer" value="0.15"/>
+        <constructor-arg name="numberOfSeats" value="35"/>
+        <constructor-arg name="costByTicket" value="28"/>
+        <constructor-arg name="routeNumber" value="1"/>
+        <constructor-arg name="routeStartTime" value="07:00:00"/>
+        <constructor-arg name="routeEndTime" value="21:00:00"/>
+        <constructor-arg name="routeList" ref="route1"/>
+    </bean>
+    <bean id="Minibus1" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" ref="MINIBUS"/>
+        <constructor-arg name="carNumber" value="гд133н"/>
+        <constructor-arg name="carModel" value="Peugeot"/>
+        <constructor-arg name="color" value="Желтый"/>
+        <constructor-arg name="averageSpeed" value="70"/>
+        <constructor-arg name="fuelPerKilometer" value="0.12"/>
+        <constructor-arg name="numberOfSeats" value="15"/>
+        <constructor-arg name="costByTicket" value="30"/>
+        <constructor-arg name="routeNumber" value="2"/>
+        <constructor-arg name="routeStartTime" value="08:00:00"/>
+        <constructor-arg name="routeEndTime" value="23:00:00"/>
+        <constructor-arg name="routeList" ref="route2"/>
+    </bean>
+    <bean id="Minibus2" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" ref="MINIBUS"/>
+        <constructor-arg name="carNumber" value="еж003в"/>
+        <constructor-arg name="carModel" value="ГАЗ"/>
+        <constructor-arg name="color" value="Желтый"/>
+        <constructor-arg name="averageSpeed" value="60"/>
+        <constructor-arg name="fuelPerKilometer" value="0.125"/>
+        <constructor-arg name="numberOfSeats" value="11"/>
+        <constructor-arg name="costByTicket" value="30"/>
+        <constructor-arg name="routeNumber" value="3"/>
+        <constructor-arg name="routeStartTime" value="08:00:00"/>
+        <constructor-arg name="routeEndTime" value="23:00:00"/>
+        <constructor-arg name="routeList" ref="route3"/>
+    </bean>
+    <bean id="TrolleyBus1" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" ref="TROLLEYBUS"/>
+        <constructor-arg name="carNumber" value="ун203г"/>
+        <constructor-arg name="carModel" value="СВАРЗ"/>
+        <constructor-arg name="color" value="Синий"/>
+        <constructor-arg name="averageSpeed" value="50"/>
+        <constructor-arg name="fuelPerKilometer" value="0.09"/>
+        <constructor-arg name="numberOfSeats" value="30"/>
+        <constructor-arg name="costByTicket" value="25"/>
+        <constructor-arg name="routeNumber" value="4"/>
+        <constructor-arg name="routeStartTime" value="06:00:00"/>
+        <constructor-arg name="routeEndTime" value="23:00:00"/>
+        <constructor-arg name="routeList" ref="route4"/>
+    </bean>
+    <bean id="Tram1" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
+        <constructor-arg name="transportType" ref="TRAM"/>
+        <constructor-arg name="carNumber" value="лг777й"/>
+        <constructor-arg name="carModel" value="Татра"/>
+        <constructor-arg name="color" value="Красно-белый"/>
+        <constructor-arg name="averageSpeed" value="40"/>
+        <constructor-arg name="fuelPerKilometer" value="0.05"/>
+        <constructor-arg name="numberOfSeats" value="40"/>
+        <constructor-arg name="costByTicket" value="27"/>
+        <constructor-arg name="routeNumber" value="5"/>
+        <constructor-arg name="routeStartTime" value="03:00:00"/>
+        <constructor-arg name="routeEndTime" value="23:00:00"/>
+        <constructor-arg name="routeList" ref="route5"/>
+    </bean>
+</beans>
