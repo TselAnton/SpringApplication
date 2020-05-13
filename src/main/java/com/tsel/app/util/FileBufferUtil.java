@@ -1,10 +1,10 @@
 package com.tsel.app.util;
 
-import com.google.gson.Gson;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import static java.lang.String.format;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 
+import com.google.gson.Gson;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.lang.String.format;
-import static java.util.Collections.emptyList;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
 @Slf4j
@@ -43,6 +43,10 @@ public final class FileBufferUtil {
         return addObjectsToFile(tClass, new ArrayList<>(tSet), false);
     }
 
+    public <T> boolean addObjectsToBuff(Class<T> tClass,T tObj) {
+        return addObjectsToFile(tClass, singletonList(tObj), false);
+    }
+
     /**
      * Записать список классов в конец файла
      * @param tClass Класс объектов
@@ -56,6 +60,10 @@ public final class FileBufferUtil {
 
     public <T> boolean addObjectsToBuffEnd(Class<T> tClass, Set<T> tSet) {
         return addObjectsToFile(tClass, new ArrayList<>(tSet), true);
+    }
+
+    public <T> boolean addObjectsToBuffEnd(Class<T> tClass, T tObj) {
+        return addObjectsToFile(tClass, singletonList(tObj), true);
     }
 
     /**

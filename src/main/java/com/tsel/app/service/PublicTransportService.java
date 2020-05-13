@@ -1,18 +1,18 @@
 package com.tsel.app.service;
 
+import static java.lang.String.format;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
 import com.tsel.app.entity.community.PublicTransportEntity;
 import com.tsel.app.entity.community.PublicTransportRoute;
 import com.tsel.app.util.FileBufferUtil;
 import com.tsel.app.util.RouteBuilder;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,12 +22,10 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.lang.String.format;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Data
 @Slf4j
@@ -94,7 +92,7 @@ public class PublicTransportService {
      * @param endPeriod Конец периода
      * @return Список информации за промежуток
      */
-    public List<PublicTransportRoute> getRoutesByTimePeriod(String routeNumber, LocalDate startPeriod, LocalDate endPeriod) {
+    public List<PublicTransportRoute> getRouteByTimePeriod(String routeNumber, LocalDate startPeriod, LocalDate endPeriod) {
         Optional<PublicTransportEntity> transport = getTransportByRouteNumber(routeNumber);
         if (!transport.isPresent()) {
             log.warn("Public Transport with number {} not exist", routeNumber);
@@ -107,7 +105,7 @@ public class PublicTransportService {
             return emptyList();
         }
 
-        if (timeService.now().isBefore(LocalDateTime.of(endPeriod, LocalTime.parse("00:00:00")))) {
+        if (timeService.now().toLocalDate().isBefore(endPeriod)) {
             endPeriod = timeService.now().toLocalDate();
         }
 
@@ -120,6 +118,27 @@ public class PublicTransportService {
         return routeList.stream()
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
+    }
+
+    /**
+     * Получить всю информацию о поездках всего транспорта за определённый промежуток времени
+     * @param startPeriod Начада периода
+     * @param endPeriod Конец периода
+     * @return Лист всех поездок
+     */
+    public List<PublicTransportRoute> getRoutesByTimePeriod(LocalDate startPeriod, LocalDate endPeriod) {
+        List<PublicTransportRoute> routes = new ArrayList<>();
+        do {
+            LocalDate finalStartPeriod = startPeriod;
+            routes.addAll(publicTransports.stream()
+                .map(transport -> getRouteByDate(transport.getRouteNumber(), finalStartPeriod).orElse(null))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList()));
+
+            startPeriod = startPeriod.plusDays(1);
+        } while (startPeriod.isBefore(endPeriod));
+
+        return routes;
     }
 
     /**
@@ -137,7 +156,7 @@ public class PublicTransportService {
         if (isNotWorkingTime(transport)) {
             log.warn("Public Transport with number {} not working now", routeNumber);
             return of(format("%s под номером \"%s\" не работает в данный момент",
-                    transport.getTransportType(), transport.getRouteNumber()));
+                    transport.getTransportType().getType(), transport.getRouteNumber()));
         }
 
         long workingTime = Duration.between(transport.getRouteStartTime(), timeService.now().toLocalTime()).getSeconds();

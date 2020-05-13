@@ -1,11 +1,10 @@
 package com.tsel.app.service;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 /***
  * Представление времени в программе:

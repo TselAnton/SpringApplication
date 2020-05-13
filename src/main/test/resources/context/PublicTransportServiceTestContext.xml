@@ -9,15 +9,23 @@
 
     <context:annotation-config/>
 
-    <import resource="RouteBuilderTestContext.xml"/>
-    <import resource="FileBufferUtilTestContext.xml"/>
+    <import resource="UtilContext.xml"/>
 
-    <bean id="testTimeService" class="com.tsel.app.service.TimeService"/>
+    <!-- Тестовые типы транспорта -->
+    <bean id="testBusType" class="com.tsel.app.entity.community.PublicTransportType">
+      <constructor-arg value="Автобус"/>
+    </bean>
+    <bean id="testMinibusType" class="com.tsel.app.entity.community.PublicTransportType">
+      <constructor-arg value="Микроавтобус"/>
+    </bean>
+    <bean id="testTrolleybusType" class="com.tsel.app.entity.community.PublicTransportType">
+      <constructor-arg value="Троллейбус"/>
+    </bean>
 
     <bean id="AbstractPublicTransport" class="com.tsel.app.entity.community.PublicTransportEntity" abstract="true" init-method="init"/>
 
     <bean id="testBus" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
-      <constructor-arg name="transportType" value="Автобус"/>
+      <constructor-arg name="transportType" ref="testBusType"/>
       <constructor-arg name="carNumber" value="carNumber"/>
       <constructor-arg name="carModel" value="carModel"/>
       <constructor-arg name="color" value="color"/>
@@ -42,7 +50,7 @@
     </bean>
 
     <bean id="testMinibus" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
-      <constructor-arg name="transportType" value="Маршрутное такси"/>
+      <constructor-arg name="transportType" ref="testMinibusType"/>
       <constructor-arg name="carNumber" value="carNumber"/>
       <constructor-arg name="carModel" value="carModel"/>
       <constructor-arg name="color" value="color"/>
@@ -66,7 +74,7 @@
     </bean>
 
     <bean id="testTrolleyBus" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
-      <constructor-arg name="transportType" value="Троллейбус"/>
+      <constructor-arg name="transportType" ref="testTrolleybusType"/>
       <constructor-arg name="carNumber" value="carNumber"/>
       <constructor-arg name="carModel" value="carModel"/>
       <constructor-arg name="color" value="color"/>

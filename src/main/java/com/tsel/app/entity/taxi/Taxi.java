@@ -1,10 +1,10 @@
 package com.tsel.app.entity.taxi;
 
+import static java.lang.String.format;
+
 import com.tsel.app.entity.Transport;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import static java.lang.String.format;
 
 @Data
 @AllArgsConstructor

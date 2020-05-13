@@ -1,27 +1,31 @@
 package com.tsel.app.service;
 
+import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
 import com.tsel.app.entity.taxi.Taxi;
 import com.tsel.app.entity.taxi.TaxiOrder;
 import com.tsel.app.util.FileBufferUtil;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static java.util.Collections.singletonList;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Data
 @Slf4j
 @Service
 public class TaxiService {
+
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private TimeService timeService;
     private FileBufferUtil bufferUtil;
@@ -63,7 +67,7 @@ public class TaxiService {
     }
 
     /**
-     * Узнать статус заказа
+     * Получить заказ по номеру заказа
      * @param orderNumb Номер заказа
      * @return Заказ
      */
@@ -73,6 +77,20 @@ public class TaxiService {
         return getOrders().stream()
                 .filter(order -> order.getOrderNumber() == orderNumb)
                 .findFirst();
+    }
+
+    /**
+     * Получить заказы по дате
+     * @param date Дата
+     * @return Лист заказов
+     */
+    public List<TaxiOrder> getOrderByDate(LocalDate date) {
+        checkOrdersToEnded();
+        log.debug("Get order by date {}", date.format(FORMATTER));
+        return getOrders().stream()
+            .filter(order -> order.getEndTimeOfTrip().toLocalDate().equals(date))
+            .filter(order -> !order.isCanceled() && order.isEnded())
+            .collect(Collectors.toList());
     }
 
     /**

@@ -1,11 +1,10 @@
 package com.tsel.app;
 
 import com.tsel.app.service.TimeService;
+import java.time.format.DateTimeFormatter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import java.time.format.DateTimeFormatter;
 
 @Slf4j
 public class App {

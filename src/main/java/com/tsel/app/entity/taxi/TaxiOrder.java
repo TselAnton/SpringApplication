@@ -1,11 +1,11 @@
 package com.tsel.app.entity.taxi;
 
-import lombok.Data;
+import static java.lang.String.format;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import static java.lang.String.format;
+import java.time.temporal.ChronoUnit;
+import lombok.Data;
 
 @Data
 public class TaxiOrder {
@@ -30,7 +30,7 @@ public class TaxiOrder {
         this.tripLength = tripLength;
         this.startTimeOfTrip = startTimeOfTrip;
         this.endTimeOfTrip = endTimeOfTrip;
-        this.price = taxi.getCarClass().getCostPerKilometer() * tripLength;
+        this.price = countPrice();
         this.isEnded = false;
         this.isCanceled = false;
     }
@@ -50,6 +50,12 @@ public class TaxiOrder {
             return true;
         }
         return false;
+    }
+
+    private double countPrice() {
+        return this.taxi.getCarClass().getCostPerKilometer() * tripLength +
+            0.3 * ChronoUnit.SECONDS.between(startTimeOfTrip, endTimeOfTrip) +
+            0.2 * tripLength + 0.1 * taxi.getAverageSpeed();
     }
 
     private String getOrderStatus() {

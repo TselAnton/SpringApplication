@@ -2,15 +2,14 @@ package com.tsel.app.entity.community;
 
 import com.tsel.app.entity.PublicTransport;
 import com.tsel.app.util.RouteBuilder;
-import lombok.Data;
-
 import java.time.LocalTime;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class PublicTransportEntity implements PublicTransport {
 
-    private String transportType;
+    private PublicTransportType transportType;
     private String carNumber;
     private String carModel;
     private String color;
@@ -25,10 +24,10 @@ public class PublicTransportEntity implements PublicTransport {
     private LocalTime routeStartTime;
     private LocalTime routeEndTime;
 
-    public PublicTransportEntity(String transportType, String carNumber, String carModel, String color, Double averageSpeed,
-                                 Double fuelPerKilometer, Integer numberOfSeats, Double costByTicket,
-                                 String routeNumber, List<Integer> routeList, String routeStartTime,
-                                 String routeEndTime) {
+    public PublicTransportEntity(PublicTransportType transportType, String carNumber, String carModel,
+                                 String color, Double averageSpeed, Double fuelPerKilometer, Integer numberOfSeats,
+                                 Double costByTicket, String routeNumber, List<Integer> routeList,
+                                 String routeStartTime, String routeEndTime) {
         this.transportType = transportType;
         this.carNumber = carNumber;
         this.carModel = carModel;

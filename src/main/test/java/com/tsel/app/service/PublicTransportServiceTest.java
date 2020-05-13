@@ -1,24 +1,23 @@
 package com.tsel.app.service;
 
-import com.tsel.app.entity.PublicTransport;
-import com.tsel.app.entity.community.PublicTransportRoute;
-import com.tsel.app.util.FileBufferUtil;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
 import static java.util.Collections.emptyList;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import com.tsel.app.entity.PublicTransport;
+import com.tsel.app.entity.community.PublicTransportRoute;
+import com.tsel.app.util.FileBufferUtil;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "file:src/main/test/resources/context/PublicTransportServiceTestContext.xml")
@@ -77,7 +76,7 @@ public class PublicTransportServiceTest {
         bufferUtil.clearBuff(PublicTransportRoute.class);
         LocalDate start = timeService.now().minusDays(2).toLocalDate();
         LocalDate end = timeService.now().minusDays(1).toLocalDate();
-        List<PublicTransportRoute> route = service.getRoutesByTimePeriod("50", start, end);
+        List<PublicTransportRoute> route = service.getRouteByTimePeriod("50", start, end);
         assertEquals(emptyList(), route);
     }
 
@@ -86,7 +85,7 @@ public class PublicTransportServiceTest {
         bufferUtil.clearBuff(PublicTransportRoute.class);
         LocalDate end = timeService.now().minusDays(2).toLocalDate();
         LocalDate start = timeService.now().minusDays(1).toLocalDate();
-        List<PublicTransportRoute> route = service.getRoutesByTimePeriod("1", start, end);
+        List<PublicTransportRoute> route = service.getRouteByTimePeriod("1", start, end);
         assertEquals(emptyList(), route);
     }
 
@@ -95,7 +94,7 @@ public class PublicTransportServiceTest {
         bufferUtil.clearBuff(PublicTransportRoute.class);
         LocalDate start = timeService.now().minusDays(2).toLocalDate();
         LocalDate end = timeService.now().plusDays(1).toLocalDate();
-        List<PublicTransportRoute> route = service.getRoutesByTimePeriod("1", start, end);
+        List<PublicTransportRoute> route = service.getRouteByTimePeriod("1", start, end);
         assertEquals(2, route.size());
         assertEquals(start, route.get(0).getDate());
         assertEquals(start.plusDays(1), route.get(1).getDate());
@@ -106,7 +105,7 @@ public class PublicTransportServiceTest {
         bufferUtil.clearBuff(PublicTransportRoute.class);
         LocalDate start = timeService.now().minusDays(50).toLocalDate();
         LocalDate end = timeService.now().toLocalDate();
-        List<PublicTransportRoute> route = service.getRoutesByTimePeriod("1", start, end);
+        List<PublicTransportRoute> route = service.getRouteByTimePeriod("1", start, end);
         assertEquals(50, route.size());
     }
 
@@ -119,12 +118,22 @@ public class PublicTransportServiceTest {
     @Test
     public void getCurrentLocationShouldReturnNotWorkingMessage() {
         String location = service.getCurrentLocation("2").orElse("");
-        assertTrue(location.contains("не работает в данный момент"));
+        assertEquals("Микроавтобус под номером \"2\" не работает в данный момент", location);
     }
 
     @Test
     public void getCurrentLocationShouldReturnRightPath() {
         String location = service.getCurrentLocation("3").orElse("");
         assertTrue("BusStop5 - BusStop9".equals(location) || "BusStop9 - BusStop5".equals(location));
+    }
+
+    @Test
+    public void getRoutesByTimePeriodShouldReturnListOfRoutes() {
+        bufferUtil.clearBuff(PublicTransportRoute.class);
+        LocalDate start = timeService.now().minusDays(5).toLocalDate();
+        LocalDate end = timeService.now().toLocalDate();
+
+        List<PublicTransportRoute> routes = service.getRoutesByTimePeriod(start, end);
+        assertEquals(15, routes.size());
     }
 }
