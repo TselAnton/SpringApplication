@@ -7,11 +7,12 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
-    <context:annotation-config />
+    <context:component-scan base-package="com.tsel.app"/>
     <context:property-placeholder location="classpath:properties/*.properties"/>
 
-    <import resource="TaxiContext.xml"/>
-    <import resource="BusContext.xml"/>
+    <import resource="taxi-context.xml"/>
+    <import resource="bus-context.xml"/>
+    <import resource="/WEB-INF/dispatcher-config.xml"/>
 
     <bean id="fileBuffer" class="com.tsel.app.util.FileBufferUtil">
         <constructor-arg value="${fileBufferPath}"/>
@@ -33,10 +34,4 @@
             </set>
         </constructor-arg>
     </bean>
-
-<!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-<!--        <property name = "prefix" value = "/WEB-INF/jsp/" />-->
-<!--        <property name = "suffix" value = ".jsp" />-->
-<!--    </bean>-->
-
 </beans>
