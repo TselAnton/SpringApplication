@@ -1,5 +1,6 @@
 package com.tsel.app.service;
 
+import static com.tsel.app.service.TimeService.DATE_FORMATTER;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -35,8 +36,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class PublicTransportService {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-
     private TimeService timeService;
     private FileBufferUtil bufferUtil;
     private RouteBuilder routeBuilder;
@@ -69,7 +68,7 @@ public class PublicTransportService {
         }
 
         if (timeService.now().isBefore(LocalDateTime.of(date, transport.getRouteEndTime()))) {
-            log.warn("Data by date \"{}\" does not yet exist", date.format(FORMATTER));
+            log.warn("Data by date \"{}\" does not yet exist", date.format(DATE_FORMATTER));
             return empty();
         }
 
@@ -103,7 +102,7 @@ public class PublicTransportService {
 
         if (endPeriod.isBefore(startPeriod)) {
             log.warn("Start date \"{}\" and end date \"{}\" are incorrect",
-                startPeriod.format(FORMATTER), endPeriod.format(FORMATTER));
+                startPeriod.format(DATE_FORMATTER), endPeriod.format(DATE_FORMATTER));
             return emptyList();
         }
 

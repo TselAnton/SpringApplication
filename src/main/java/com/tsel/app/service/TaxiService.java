@@ -1,15 +1,14 @@
 package com.tsel.app.service;
 
-import static java.util.Collections.singletonList;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
-
 import com.tsel.app.entity.taxi.Taxi;
 import com.tsel.app.entity.taxi.TaxiOrder;
 import com.tsel.app.util.FileBufferUtil;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,18 +16,16 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import static com.tsel.app.service.TimeService.DATE_FORMATTER;
+import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 
 @Data
 @Slf4j
 @Service
 public class TaxiService {
-
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     private TimeService timeService;
     private FileBufferUtil bufferUtil;
@@ -89,7 +86,7 @@ public class TaxiService {
      */
     public List<TaxiOrder> getOrderByDate(LocalDate date) {
         checkOrdersToEnded();
-        log.debug("Get order by date {}", date.format(FORMATTER));
+        log.debug("Get order by date {}", date.format(DATE_FORMATTER));
         return getOrders().stream()
             .filter(order -> order.getEndTimeOfTrip().toLocalDate().equals(date))
             .filter(order -> !order.isCanceled() && order.isEnded())

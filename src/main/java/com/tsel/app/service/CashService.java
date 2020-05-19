@@ -1,5 +1,6 @@
 package com.tsel.app.service;
 
+import static com.tsel.app.service.TimeService.DATE_FORMATTER;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
@@ -20,8 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class CashService {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
     private TaxiService taxiService;
     private PublicTransportService transportService;
     private TimeService timeService;
@@ -34,12 +33,12 @@ public class CashService {
      */
     public Optional<Double> getIncomeForPeriod(LocalDate start, LocalDate end) {
         if (isNotNormalDates(start, end)) {
-            log.warn("Start date \"{}\" is after end date \"{}\"", start.format(FORMATTER), end.format(FORMATTER));
+            log.warn("Start date \"{}\" is after end date \"{}\"", start.format(DATE_FORMATTER), end.format(DATE_FORMATTER));
             return empty();
         }
 
         if (end.isAfter(timeService.now().toLocalDate())) {
-            log.warn("End time \"{}\" late than now \"{}\"", end.format(FORMATTER), timeService.now().format(FORMATTER));
+            log.warn("End time \"{}\" late than now \"{}\"", end.format(DATE_FORMATTER), timeService.now().format(DATE_FORMATTER));
             end = timeService.now().toLocalDate();
         }
         return of(getTaxiIncomeForPeriod(start, end) + getPublicTransportIncomeForPeriod(start, end));
@@ -54,12 +53,12 @@ public class CashService {
      */
     public Optional<Double> getIncomeForPeriodByTransportType(String transportType, LocalDate start, LocalDate end) {
         if (isNotNormalDates(start, end)) {
-            log.warn("Start date \"{}\" is after end date \"{}\"", start.format(FORMATTER), end.format(FORMATTER));
+            log.warn("Start date \"{}\" is after end date \"{}\"", start.format(DATE_FORMATTER), end.format(DATE_FORMATTER));
             return empty();
         }
 
         if (end.isAfter(timeService.now().toLocalDate())) {
-            log.warn("End time \"{}\" late than now \"{}\"", end.format(FORMATTER), timeService.now().format(FORMATTER));
+            log.warn("End time \"{}\" late than now \"{}\"", end.format(DATE_FORMATTER), timeService.now().format(DATE_FORMATTER));
             end = timeService.now().toLocalDate();
         }
 
