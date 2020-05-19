@@ -22,6 +22,8 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -178,6 +180,24 @@ public class PublicTransportService {
             counter += 1;
         }
         return empty();
+    }
+
+    /**
+     * Получить весь работающий в данный момент публичный транспорт
+     * @return List всего работающего транспорта
+     */
+    public List<PublicTransportEntity> getAllWorkingTransport() {
+        return publicTransports.stream()
+                .filter(transport -> !isNotWorkingTime(transport))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Получить весь имеющийся публичный транспорт
+     * @return List всего публичного транспорта
+     */
+    public List<PublicTransportEntity> getAllTransport() {
+        return new ArrayList<>(publicTransports);
     }
 
     private boolean isNotWorkingTime(PublicTransportEntity transport) {

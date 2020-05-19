@@ -26,13 +26,13 @@ public class App implements WebApplicationInitializer {
         // Создаём контекст для dispatcher servlet'а
         AnnotationConfigWebApplicationContext dispatcherContext =
                 new AnnotationConfigWebApplicationContext();
-        dispatcherContext.scan("com.epam.rd");
+        dispatcherContext.scan("com.tsel.app");
 
         // Регистрируем dispatcher servlet
         ServletRegistration.Dynamic dispatcher =
                 container.addServlet("dispatcher", new DispatcherServlet(dispatcherContext));
         dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/");
+        dispatcher.addMapping("/*");
 
         log.info("App started");
     }

@@ -10,12 +10,15 @@ import com.tsel.app.util.FileBufferUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -108,6 +111,26 @@ public class TaxiService {
                 .orElse(false);
     }
 
+    /**
+     * Получить все работающие в текущий момент такси
+     * @return List работающих такси
+     */
+    public List<Taxi> getAllWorkingTaxis() {
+        return getOrders()
+                .stream()
+                .filter(TaxiOrder::isNotEnded)
+                .map(TaxiOrder::getTaxi)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Получить все имеющиеся такси
+     * @return List всех такси
+     */
+    public List<Taxi> getAllTaxis() {
+        return new ArrayList<>(taxis);
+    }
+
     private HashSet<TaxiOrder> getOrders() {
         return new HashSet<>(bufferUtil.getObjectsFromBuff(TaxiOrder.class));
     }
@@ -127,11 +150,7 @@ public class TaxiService {
 
     private Taxi findFreeTaxi() {
         Set<Taxi> freeTaxi = new HashSet<>(taxis);
-        freeTaxi.removeAll(
-                getOrders().stream()
-                    .filter(TaxiOrder::isNotEnded)
-                    .map(TaxiOrder::getTaxi)
-                    .collect(Collectors.toList()));
+        freeTaxi.removeAll(getAllWorkingTaxis());
         if (freeTaxi.isEmpty()) {
             return null;
         }
