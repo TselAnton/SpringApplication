@@ -1,25 +1,32 @@
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<html>
+<style>
+    <%@ include file='css/menu-page-style.css' %>
+</style>
+<html lang="ru>
     <head>
-        <meta charset="utf-8">
         <title>Автопарк</title>
-		<h1>Автопарк</h1>
-	</head>
+        <meta charset="utf-8" />
+    </head>
     <body>
-        <p><strong>Программное время: ${time}</strong></p>
-		<br>
-		<strong><h2>Доступные сервисы:</h2></strong>
-		<ul>
-			<li><h3><a href="taxi-service">Такси</a></h3></li>
-			<li><h3><a href="public-transport-service">Общественный транспорт</a></h3></li>
-		</ul>
-		<br>
-		<strong><h2>Управление автопарком:</h2></strong>
-		<ul>
-			<li><h3><a href="car-info">Информация о машинах</a></h3></li>
-			<li><h3><a href="cash-info">Зарабаток автопарка</a></h3></li>
-		</ul>
+        <div class="car-park">
+            <h1 class="heading ">Автопарк</h1>
+                <div class="services">
+                    <p>Доступные сервисы:</p>
+                    <ul class="transport">
+                        <li><a class="effect-hover" href="taxi-service">Такси</a></li>
+                        <li><a class="effect-hover" href="public-transport-service">Общественный транспорт</a></li>
+                    </ul>
+                </div>
+                <div class="control">
+                    <p>Управление автопарком:</p>
+                    <ul class="transport">
+                        <li><a class="effect-hover" href="car-info">Информация о машинах</a></li>
+                        <li><a class="effect-hover" href="cash-info">Зарабаток автопарка</a></li>
+                    </ul>
+                </div>
+            <p class="date-time">Время: ${time}. Дата: ${date}</p>
+        </div>
     </body>
 </html>

@@ -58,7 +58,7 @@ public class TaxiOrder {
             0.2 * tripLength + 0.1 * taxi.getAverageSpeed();
     }
 
-    private String getOrderStatus() {
+    public String getOrderStatus() {
         if (isCanceled) {
             return "Заказ отменён";
         }

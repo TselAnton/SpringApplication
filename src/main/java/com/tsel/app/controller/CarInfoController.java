@@ -1,22 +1,24 @@
 package com.tsel.app.controller;
 
-import com.tsel.app.service.TimeService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import static com.tsel.app.service.TimeService.DATE_TIME_FORMATTER;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class CarInfoController {
+@RequestMapping("/car-info")
+public class CarInfoController extends AbstractController {
 
-    @Autowired
-    private TimeService timeService;
+    private static final String HOME_DIR = "cash-info";
+    private static final String HOME_PAGE = "cash-info-home-page";
 
-    @GetMapping(value = "/car-info")
+    @GetMapping
     public String getCarInfoHomeView(Model model) {
-        model.addAttribute("time", timeService.now().format(DATE_TIME_FORMATTER));
-        return "car-info-home-page";
+        setDateTimeToModel(model);
+        return resolveView(HOME_PAGE);
+    }
+
+    private String resolveView(String page) {
+        return HOME_DIR + "/" + page;
     }
 }
