@@ -16,8 +16,8 @@
                 <p>Доступные сервисы:</p>
                 <ul class="taxi-orders">
                     <li><a class="effect-hover" href="/SpringApplication/taxi-service/get-make-order-form">Заказать такси</a></li>
-                    <li><a class="effect-hover" href="#">Узнать статус заказа</a></li>
-                    <li><a class="effect-hover" href="#">Отменить заказ</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/taxi-service/get-order-status-form">Узнать статус заказа</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/taxi-service/get-cancel-order-form">Отменить заказ</a></li>
                     <li><a class="effect-hover" href="/SpringApplication">Назад</a></li>
                 </ul>
             </div>

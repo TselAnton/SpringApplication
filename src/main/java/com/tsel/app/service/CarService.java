@@ -1,12 +1,13 @@
 package com.tsel.app.service;
 
 import com.tsel.app.entity.Transport;
+import com.tsel.app.entity.community.PublicTransportEntity;
+import com.tsel.app.entity.taxi.Taxi;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Slf4j
@@ -34,5 +35,18 @@ public class CarService {
         List<Transport> transports = new ArrayList<>(taxiService.getAllWorkingTaxis());
         transports.addAll(transportService.getAllWorkingTransport());
         return transports;
+    }
+
+    /**
+     * Получить тип транспорта
+     * @param transport Транспорт
+     * @return Тип транспорта
+     */
+    public String getCarType(Transport transport) {
+        if (transport instanceof Taxi) {
+            return "Такси: " + ((Taxi) transport).getCarClass().getDescription();
+        } else {
+            return ((PublicTransportEntity) transport).getTransportType().getType();
+        }
     }
 }

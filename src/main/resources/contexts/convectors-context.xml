@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="taxiOrderConvector" class="com.tsel.app.conventor.TaxiOrderConvector"/>
+
+  <bean id="publicTransportConvector" class="com.tsel.app.conventor.PublicTransportConvector">
+    <constructor-arg ref="routeBuilder"/>
+  </bean>
+
+  <bean id="routeConvector" class="com.tsel.app.conventor.RouteConvector">
+    <constructor-arg ref="publicTransportConvector"/>
+  </bean>
+
+  <bean id="transportConvector" class="com.tsel.app.conventor.TransportConvector">
+    <constructor-arg ref="carService"/>
+  </bean>
+
+</beans>

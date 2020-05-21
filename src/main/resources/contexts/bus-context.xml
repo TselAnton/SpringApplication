@@ -91,7 +91,7 @@
         <constructor-arg name="carModel" value="Mercedes"/>
         <constructor-arg name="color" value="Белый"/>
         <constructor-arg name="averageSpeed" value="55"/>
-        <constructor-arg name="fuelPerKilometer" value="0.15"/>
+        <constructor-arg name="fuelPerKilometer" value="7.15"/>
         <constructor-arg name="numberOfSeats" value="35"/>
         <constructor-arg name="costByTicket" value="28"/>
         <constructor-arg name="routeNumber" value="1"/>
@@ -105,7 +105,7 @@
         <constructor-arg name="carModel" value="Peugeot"/>
         <constructor-arg name="color" value="Желтый"/>
         <constructor-arg name="averageSpeed" value="70"/>
-        <constructor-arg name="fuelPerKilometer" value="0.12"/>
+        <constructor-arg name="fuelPerKilometer" value="6.12"/>
         <constructor-arg name="numberOfSeats" value="15"/>
         <constructor-arg name="costByTicket" value="30"/>
         <constructor-arg name="routeNumber" value="2"/>
@@ -119,7 +119,7 @@
         <constructor-arg name="carModel" value="ГАЗ"/>
         <constructor-arg name="color" value="Желтый"/>
         <constructor-arg name="averageSpeed" value="60"/>
-        <constructor-arg name="fuelPerKilometer" value="0.125"/>
+        <constructor-arg name="fuelPerKilometer" value="7.325"/>
         <constructor-arg name="numberOfSeats" value="11"/>
         <constructor-arg name="costByTicket" value="30"/>
         <constructor-arg name="routeNumber" value="3"/>
@@ -133,7 +133,7 @@
         <constructor-arg name="carModel" value="СВАРЗ"/>
         <constructor-arg name="color" value="Синий"/>
         <constructor-arg name="averageSpeed" value="50"/>
-        <constructor-arg name="fuelPerKilometer" value="0.09"/>
+        <constructor-arg name="fuelPerKilometer" value="8.12"/>
         <constructor-arg name="numberOfSeats" value="30"/>
         <constructor-arg name="costByTicket" value="25"/>
         <constructor-arg name="routeNumber" value="4"/>
@@ -143,11 +143,11 @@
     </bean>
     <bean id="Tram1" class="com.tsel.app.entity.community.PublicTransportEntity" parent="AbstractPublicTransport">
         <constructor-arg name="transportType" ref="TRAM"/>
-        <constructor-arg name="carNumber" value="лг777й"/>
+        <constructor-arg name="carNumber" value="лг777y"/>
         <constructor-arg name="carModel" value="Татра"/>
         <constructor-arg name="color" value="Красно-белый"/>
         <constructor-arg name="averageSpeed" value="40"/>
-        <constructor-arg name="fuelPerKilometer" value="0.05"/>
+        <constructor-arg name="fuelPerKilometer" value="7.95"/>
         <constructor-arg name="numberOfSeats" value="40"/>
         <constructor-arg name="costByTicket" value="27"/>
         <constructor-arg name="routeNumber" value="5"/>

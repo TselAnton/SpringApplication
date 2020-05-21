@@ -1,32 +1,32 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
-<style>
-    <%@ include file='..//css/menu-page-style.css' %>
-</style>
-<html lang="ru>
+    <style>
+        <%@ include file='css/order-status-style.css' %>
+    </style>
     <head>
         <title>Автопарк</title>
         <meta charset="utf-8" />
     </head>
     <body>
-         <div class="car-park">
+        <div class="car-park">
             <h1 class="heading">Такси</h1>
             <div class="services">
-                <p>Заказ #${orderNumb}</p>
-                <ul class="taxi-orders">
-                    <li>${carClass}: ${carModel}, цвет ${carColor}</li>
-                    <li>Номер машины: ${carNumber}</li>
-                    <li>Водитель: ${driverName}</li>
-                    <li>Цена поездки: ${price} руб</li>
-                    <li>Статус поездки: ${status}</li>
-                    <li>Длина поездки: ${tripLength} км</li>
-                    <li>Начало поездки: ${startTime}</li>
-                    <li>Конец поездки: ${endTime}</li>
-                    <li><a class="effect-hover" href="/SpringApplication/taxi-service">Вернуться назад</a></li>
-                </ul>
+                <p>Заказ #${order.orderNumb}</p>
+                <div class="order-description">
+                    <p>${order.carClass}: ${order.carModel}, цвет ${order.carColor}</p>
+                    <p>Номер машины: ${order.carNumber}</p>
+                    <p>Водитель: ${order.driverName}</p>
+                    <p>Цена поездки: ${order.price} руб</p>
+                    <p>Статус поездки: ${order.status}</p>
+                    <p>Длина поездки: ${order.tripLength} км</p>
+                    <p>Начало поездки: ${order.startTime}</p>
+                    <p>Конец поездки: ${order.endTime}</p>
+                    <p>Заказчик: ${order.passengerFullName}</p>
+                </div>
+                <a class="effect-hover" href="/SpringApplication/taxi-service">Вернуться назад</a>
             </div>
             <p class="date-time">Время: ${time}. Дата: ${date}</p>
-         </div>
+        </div>
     </body>
 </html>

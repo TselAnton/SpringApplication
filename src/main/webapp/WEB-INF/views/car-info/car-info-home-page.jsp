@@ -16,10 +16,10 @@
             <div class="services">
                 <p>Доступные сервисы:</p>
                 <ul class="machine-information">
-                    <li><a class="effect-hover" href="#">Информация о всём работающим транспорте в автопарке</a></li>
-                    <li><a class="effect-hover" href="#">Информация о всём работающим общественном транспорте</a></li>
-                    <li><a class="effect-hover" href="#">Информация о всех работающих такси</a></li>
-                    <li><a class="effect-hover" href="#">Информация о всём транспорте в автопарке</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/car-info/info-about-all-working-transport">Информация о всём работающим транспорте в автопарке</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/car-info/info-about-all-working-public-transport">Информация о всём работающим общественном транспорте</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/car-info/info-about-working-taxi">Информация о всех работающих такси</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/car-info/info-about-all-transport">Информация о всём транспорте в автопарке</a></li>
                     <li><a class="effect-hover" href="/SpringApplication">Назад</a></li>
                 </ul>
             </div>

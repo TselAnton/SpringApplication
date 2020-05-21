@@ -10,10 +10,10 @@
     </head>
     <body>
         <div class="car-park">
-            <h1 class="heading">Заработок Автопарка</h1>
+            <h1 class="heading">Информация о пройденных маршрутах</h1>
             <div class="services">
                 <div class="form-order">
-                <form action="/SpringApplication/cash-info/get-cash-info" method="get">
+                <form action="/SpringApplication/public-transport-service/info-about-all-routes" method="get">
                     <div class="date-picker">
                         <p>Выберите дату: </p>
                         <label for="from-date">с </label>
@@ -24,7 +24,7 @@
                     <button class="taxi-ordering" type="submit">Найти информацию</button>
                 </form>
                 </div>
-                <a class="effect-hover" href="/SpringApplication">Вернуться назад</a>
+                <a class="effect-hover" href="/SpringApplication/public-transport-service">Вернуться назад</a>
             </div>
             <p class="date-time">Время: ${time}. Дата: ${date}</p>
         </div>

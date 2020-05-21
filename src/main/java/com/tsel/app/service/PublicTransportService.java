@@ -14,7 +14,6 @@ import com.tsel.app.util.RouteBuilder;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,8 +22,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +30,6 @@ import org.springframework.stereotype.Service;
 @Data
 @Slf4j
 @Service
-@AllArgsConstructor
 public class PublicTransportService {
 
     private TimeService timeService;
@@ -41,6 +37,16 @@ public class PublicTransportService {
     private RouteBuilder routeBuilder;
 
     private Set<PublicTransportEntity> publicTransports;
+
+    public PublicTransportService(TimeService timeService, FileBufferUtil bufferUtil,
+                                  RouteBuilder routeBuilder,
+                                  Set<PublicTransportEntity> publicTransports) {
+        this.timeService = timeService;
+        this.bufferUtil = bufferUtil;
+        this.routeBuilder = routeBuilder;
+        this.publicTransports = publicTransports;
+        bufferUtil.clearBuff(PublicTransportRoute.class);
+    }
 
     /**
      * Поиск общественного транспорта по номеру маршрута
@@ -214,7 +220,7 @@ public class PublicTransportService {
     }
 
     private int countPassengers(PublicTransportEntity transport) {
-        return new Random().nextInt((transport.getNumberOfSeats() * 300) - (transport.getNumberOfSeats() * 10))
+        return new Random().nextInt((transport.getNumberOfSeats() * 80) - (transport.getNumberOfSeats() * 10))
             + (transport.getNumberOfSeats() * 10);
     }
 

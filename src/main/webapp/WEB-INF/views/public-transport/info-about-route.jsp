@@ -10,21 +10,25 @@
     </head>
     <body>
         <div class="car-park">
-            <h1 class="heading">Заработок Автопарка</h1>
+            <h1 class="heading">Информация о пройденных маршрутах</h1>
             <div class="services">
                 <div class="form-order">
-                <form action="/SpringApplication/cash-info/get-cash-info" method="get">
+                    <form action="/SpringApplication/public-transport-service/info-about-route" method="get">
+                    <div class="information-input">
+                        <label for="routeNumber">Введите номер маршрута: </label>
+                        <input type="text" id="routeNumber" name="routeNumber" autocomplete="off">
+                    </div>
                     <div class="date-picker">
                         <p>Выберите дату: </p>
                         <label for="from-date">с </label>
-                        <input type="date" name="fromDate" id="from-date">
+                        <input type="date" name="fromDate" id="from_date">
                         <label for="by-date">по </label>
-                        <input type="date" name="byDate" id="by-date">
+                        <input type="date" name="byDate" id="by_date">
                     </div>
                     <button class="taxi-ordering" type="submit">Найти информацию</button>
-                </form>
+                    </form>
                 </div>
-                <a class="effect-hover" href="/SpringApplication">Вернуться назад</a>
+                <a class="effect-hover" href="/SpringApplication/public-transport-service">Вернуться назад</a>
             </div>
             <p class="date-time">Время: ${time}. Дата: ${date}</p>
         </div>

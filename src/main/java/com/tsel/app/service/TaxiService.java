@@ -1,12 +1,13 @@
 package com.tsel.app.service;
 
+import static com.tsel.app.service.TimeService.DATE_FORMATTER;
+import static java.util.Collections.singletonList;
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
+
 import com.tsel.app.entity.taxi.Taxi;
 import com.tsel.app.entity.taxi.TaxiOrder;
 import com.tsel.app.util.FileBufferUtil;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,11 +17,9 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.tsel.app.service.TimeService.DATE_FORMATTER;
-import static java.util.Collections.singletonList;
-import static java.util.Optional.empty;
-import static java.util.Optional.of;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Data
 @Slf4j
@@ -38,6 +37,7 @@ public class TaxiService {
         this.taxis = taxis;
         this.bufferUtil = bufferUtil;
         numberOfLastOrder = 0;
+        bufferUtil.clearBuff(TaxiOrder.class);
     }
 
     /**
@@ -101,11 +101,19 @@ public class TaxiService {
     public boolean cancelOrder(long orderNumb) {
         checkOrdersToEnded();
         log.debug("Cancel order by orderNumb {}", orderNumb);
-        return getOrders().stream()
-                .filter(order -> order.getOrderNumber() == orderNumb)
-                .findAny()
-                .map(TaxiOrder::cancelOrder)
-                .orElse(false);
+
+        HashSet<TaxiOrder> orders = getOrders();
+        TaxiOrder cancelOrder = orders.stream()
+            .filter(order -> order.getOrderNumber() == orderNumb)
+            .findFirst()
+            .orElse(null);
+
+        if (cancelOrder != null && cancelOrder.cancelOrder()) {
+            orders.add(cancelOrder);
+            bufferUtil.addObjectsToBuff(TaxiOrder.class, orders);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -168,5 +176,13 @@ public class TaxiService {
     private long getOrderNum() {
         numberOfLastOrder += 1;
         return numberOfLastOrder;
+    }
+
+    private Long getMaxOrderNum() {
+        return getOrders()
+                .stream()
+                .map(TaxiOrder::getOrderNumber)
+                .max(Long::compareTo)
+                .orElse(0L);
     }
 }

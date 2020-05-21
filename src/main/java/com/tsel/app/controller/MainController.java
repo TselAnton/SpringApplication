@@ -1,19 +1,20 @@
 package com.tsel.app.controller;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Base64;
-
 @Controller
 public class MainController extends AbstractController{
 
     private static final String HOME_PAGE = "index";
+
+    public MainController() {
+        super(null);
+    }
 
     @GetMapping(value = "/")
     public String getHomeView(Model model) {

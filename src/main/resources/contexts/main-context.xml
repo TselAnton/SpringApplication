@@ -12,6 +12,7 @@
 
     <import resource="taxi-context.xml"/>
     <import resource="bus-context.xml"/>
+    <import resource="convectors-context.xml"/>
 
     <bean id="fileBuffer" class="com.tsel.app.util.FileBufferUtil">
         <constructor-arg value="${fileBufferPath}"/>
@@ -32,6 +33,32 @@
                 <ref bean="Taxi6"/>
             </set>
         </constructor-arg>
+    </bean>
+
+    <bean id="publicTransportService" class="com.tsel.app.service.PublicTransportService">
+        <constructor-arg name="timeService" ref="timeService"/>
+        <constructor-arg name="bufferUtil" ref="fileBuffer"/>
+        <constructor-arg name="routeBuilder" ref="routeBuilder"/>
+        <constructor-arg name="publicTransports">
+            <set>
+                <ref bean="Bus1"/>
+                <ref bean="Minibus1"/>
+                <ref bean="Minibus2"/>
+                <ref bean="TrolleyBus1"/>
+                <ref bean="Tram1"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="carService" class="com.tsel.app.service.CarService">
+        <constructor-arg ref="taxiService"/>
+        <constructor-arg ref="publicTransportService"/>
+    </bean>
+
+    <bean id="cashService" class="com.tsel.app.service.CashService">
+        <constructor-arg ref="taxiService"/>
+        <constructor-arg ref="publicTransportService"/>
+        <constructor-arg ref="timeService"/>
     </bean>
 
     <!-- View Resolver -->

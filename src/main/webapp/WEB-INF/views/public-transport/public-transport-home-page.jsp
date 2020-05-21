@@ -16,10 +16,9 @@
                 <div class="services">
                 <p>Доступные сервисы:</p>
                 <ul class="public-transport">
-                    <li><a class="effect-hover" href="#">Найти транспорт по номеру маршрута</a></li>
-                    <li><a class="effect-hover" href="#">Узнать текущее местоположение транспорта по номеру маршрута</a></li>
-                    <li><a class="effect-hover" href="#">Получить информацию о поездках за период по номеру маршрута</a></li>
-                    <li><a class="effect-hover" href="#">Получить информацию о поездках за период всего транспорта</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/public-transport-service/find-by-route-number">Информация о транспорте по номеру маршрута</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/public-transport-service/find-info-about-route">Получить информацию о поездках по номеру маршрута за период</a></li>
+                    <li><a class="effect-hover" href="/SpringApplication/public-transport-service/find-all-info-about-route">Получить информацию о поездках всего транспорта за период</a></li>
                     <li><a class="effect-hover" href="/SpringApplication">Назад</a></li>
                 </ul>
             </div>
