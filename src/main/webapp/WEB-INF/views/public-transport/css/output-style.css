@@ -1,0 +1,113 @@
+* {
+  padding: 0;
+  margin: 0;
+  background: #222930;
+}
+
+a {
+  position: relative;
+  text-decoration: none;
+  line-height: 24px;
+  font-size: 25px;
+  color: darkgray;
+}
+
+a:before {
+  content: '';
+  position: absolute;
+  transition: transform .5s ease;
+}
+
+a:after {
+  content: '';
+  position: absolute;
+  transition: transform .5s ease;
+}
+
+a:hover {
+  color: rgba(255,255,255, 0.8);
+}
+
+.effect-hover {
+  padding: 10px;
+}
+
+.effect-hover:before {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-style: solid;
+  border-color: #505050;
+  border-width: 2px 0 2px 0;
+  transform:  scaleX(0);
+}
+
+.effect-hover:after {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-style: solid;
+  border-color: #505050;
+  border-width: 0 2px 0 2px;
+  transform:  scaleY(0);
+}
+
+.effect-hover:hover:before {
+transform:  scale(1, 1);
+}
+
+.effect-hover:hover:after {
+transform:  scale(1, 1);
+}
+
+.heading {
+  color: white;
+  font-size: 50px;
+  font-weight: 800;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.car-park {
+  font-size: 30px;
+  padding: 30px 20px 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  border: 5px solid;
+  border-color: #f47a60 #316879;
+}
+
+p {
+  color: #4EB1BA;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.order-description {
+  padding: 10px 0 0 10px;
+  margin-bottom: 10px;
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+  border-color: rgba(255, 255, 255, 0.8);
+  user-select: none;
+}
+
+.order-description p {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: left;
+}
+
+.date-time {
+  font-size: 20px;
+  padding-bottom: 10px;
+  text-align: right;
+}
+
+.services {
+  margin: 0 20px 50px;
+}

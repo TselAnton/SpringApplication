@@ -1,5 +1,6 @@
 package com.tsel.app.service;
 
+import static com.tsel.app.service.TimeService.DATE_FORMATTER;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -13,7 +14,6 @@ import com.tsel.app.util.RouteBuilder;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -30,16 +30,23 @@ import org.springframework.stereotype.Service;
 @Data
 @Slf4j
 @Service
-@AllArgsConstructor
 public class PublicTransportService {
-
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
 
     private TimeService timeService;
     private FileBufferUtil bufferUtil;
     private RouteBuilder routeBuilder;
 
     private Set<PublicTransportEntity> publicTransports;
+
+    public PublicTransportService(TimeService timeService, FileBufferUtil bufferUtil,
+                                  RouteBuilder routeBuilder,
+                                  Set<PublicTransportEntity> publicTransports) {
+        this.timeService = timeService;
+        this.bufferUtil = bufferUtil;
+        this.routeBuilder = routeBuilder;
+        this.publicTransports = publicTransports;
+        bufferUtil.clearBuff(PublicTransportRoute.class);
+    }
 
     /**
      * Поиск общественного транспорта по номеру маршрута
@@ -67,7 +74,7 @@ public class PublicTransportService {
         }
 
         if (timeService.now().isBefore(LocalDateTime.of(date, transport.getRouteEndTime()))) {
-            log.warn("Data by date \"{}\" does not yet exist", date.format(FORMATTER));
+            log.warn("Data by date \"{}\" does not yet exist", date.format(DATE_FORMATTER));
             return empty();
         }
 
@@ -101,7 +108,7 @@ public class PublicTransportService {
 
         if (endPeriod.isBefore(startPeriod)) {
             log.warn("Start date \"{}\" and end date \"{}\" are incorrect",
-                startPeriod.format(FORMATTER), endPeriod.format(FORMATTER));
+                startPeriod.format(DATE_FORMATTER), endPeriod.format(DATE_FORMATTER));
             return emptyList();
         }
 
@@ -180,6 +187,24 @@ public class PublicTransportService {
         return empty();
     }
 
+    /**
+     * Получить весь работающий в данный момент публичный транспорт
+     * @return List всего работающего транспорта
+     */
+    public List<PublicTransportEntity> getAllWorkingTransport() {
+        return publicTransports.stream()
+                .filter(transport -> !isNotWorkingTime(transport))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Получить весь имеющийся публичный транспорт
+     * @return List всего публичного транспорта
+     */
+    public List<PublicTransportEntity> getAllTransport() {
+        return new ArrayList<>(publicTransports);
+    }
+
     private boolean isNotWorkingTime(PublicTransportEntity transport) {
         return transport.getRouteStartTime().isAfter(timeService.now().toLocalTime()) ||
                 transport.getRouteEndTime().isBefore(timeService.now().toLocalTime());
@@ -195,7 +220,7 @@ public class PublicTransportService {
     }
 
     private int countPassengers(PublicTransportEntity transport) {
-        return new Random().nextInt((transport.getNumberOfSeats() * 300) - (transport.getNumberOfSeats() * 10))
+        return new Random().nextInt((transport.getNumberOfSeats() * 80) - (transport.getNumberOfSeats() * 10))
             + (transport.getNumberOfSeats() * 10);
     }
 

@@ -1,6 +1,7 @@
 package com.tsel.app.service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 @NoArgsConstructor
 public final class TimeService {
+
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    public static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy");
 
     private static final LocalDateTime INIT_DATE_TIME = LocalDateTime.now();
 

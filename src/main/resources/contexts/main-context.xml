@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:component-scan base-package="com.tsel.app"/>
+    <context:property-placeholder location="classpath:properties/*.properties"/>
+
+    <import resource="taxi-context.xml"/>
+    <import resource="bus-context.xml"/>
+    <import resource="convectors-context.xml"/>
+
+    <bean id="fileBuffer" class="com.tsel.app.util.FileBufferUtil">
+        <constructor-arg value="${fileBufferPath}"/>
+    </bean>
+
+    <bean id="timeService" class="com.tsel.app.service.TimeService"/>
+
+    <bean id="taxiService" class="com.tsel.app.service.TaxiService">
+        <constructor-arg name="timeService" ref="timeService"/>
+        <constructor-arg name="bufferUtil" ref="fileBuffer"/>
+        <constructor-arg name="taxis">
+            <set>
+                <ref bean="Taxi1"/>
+                <ref bean="Taxi2"/>
+                <ref bean="Taxi3"/>
+                <ref bean="Taxi4"/>
+                <ref bean="Taxi5"/>
+                <ref bean="Taxi6"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="publicTransportService" class="com.tsel.app.service.PublicTransportService">
+        <constructor-arg name="timeService" ref="timeService"/>
+        <constructor-arg name="bufferUtil" ref="fileBuffer"/>
+        <constructor-arg name="routeBuilder" ref="routeBuilder"/>
+        <constructor-arg name="publicTransports">
+            <set>
+                <ref bean="Bus1"/>
+                <ref bean="Minibus1"/>
+                <ref bean="Minibus2"/>
+                <ref bean="TrolleyBus1"/>
+                <ref bean="Tram1"/>
+            </set>
+        </constructor-arg>
+    </bean>
+
+    <bean id="carService" class="com.tsel.app.service.CarService">
+        <constructor-arg ref="taxiService"/>
+        <constructor-arg ref="publicTransportService"/>
+    </bean>
+
+    <bean id="cashService" class="com.tsel.app.service.CashService">
+        <constructor-arg ref="taxiService"/>
+        <constructor-arg ref="publicTransportService"/>
+        <constructor-arg ref="timeService"/>
+    </bean>
+
+    <!-- View Resolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+</beans>

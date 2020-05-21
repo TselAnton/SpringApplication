@@ -21,7 +21,7 @@ public class Taxi implements Transport {
 
     @Override
     public String toString() {
-        return format("%s %s цвет %s. Номер машины: %s. Водитель: %s",
+        return format("%s %s, цвет %s. %nНомер машины: %s. Водитель: %s",
                 carClass.getDescription(), carModel, color, carNumber, driverName);
     }
 }

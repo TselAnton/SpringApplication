@@ -1,6 +1,7 @@
 package com.tsel.app.util;
 
 import com.tsel.app.exception.RouteBuildException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
@@ -77,6 +78,16 @@ public final class RouteBuilder {
      */
     public String getRouteName(Integer p1, Integer p2) {
         return getPointName(p1) + " - " + getPointName(p2);
+    }
+
+    /**
+     * Вернуть название остановки
+     * @param p Номер остановки
+     * @return Название остановки
+     */
+    public String getPointNameUTF8(Integer p) {
+        byte[] bytes = getPointName(p).getBytes();
+        return new String(bytes, StandardCharsets.UTF_8);
     }
 
     private String getPointName(Integer p) {

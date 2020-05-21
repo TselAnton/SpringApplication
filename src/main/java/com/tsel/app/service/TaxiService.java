@@ -1,5 +1,6 @@
 package com.tsel.app.service;
 
+import static com.tsel.app.service.TimeService.DATE_FORMATTER;
 import static java.util.Collections.singletonList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -9,7 +10,7 @@ import com.tsel.app.entity.taxi.TaxiOrder;
 import com.tsel.app.util.FileBufferUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -25,8 +26,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaxiService {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
     private TimeService timeService;
     private FileBufferUtil bufferUtil;
 
@@ -38,6 +37,7 @@ public class TaxiService {
         this.taxis = taxis;
         this.bufferUtil = bufferUtil;
         numberOfLastOrder = 0;
+        bufferUtil.clearBuff(TaxiOrder.class);
     }
 
     /**
@@ -86,7 +86,7 @@ public class TaxiService {
      */
     public List<TaxiOrder> getOrderByDate(LocalDate date) {
         checkOrdersToEnded();
-        log.debug("Get order by date {}", date.format(FORMATTER));
+        log.debug("Get order by date {}", date.format(DATE_FORMATTER));
         return getOrders().stream()
             .filter(order -> order.getEndTimeOfTrip().toLocalDate().equals(date))
             .filter(order -> !order.isCanceled() && order.isEnded())
@@ -101,11 +101,39 @@ public class TaxiService {
     public boolean cancelOrder(long orderNumb) {
         checkOrdersToEnded();
         log.debug("Cancel order by orderNumb {}", orderNumb);
-        return getOrders().stream()
-                .filter(order -> order.getOrderNumber() == orderNumb)
-                .findAny()
-                .map(TaxiOrder::cancelOrder)
-                .orElse(false);
+
+        HashSet<TaxiOrder> orders = getOrders();
+        TaxiOrder cancelOrder = orders.stream()
+            .filter(order -> order.getOrderNumber() == orderNumb)
+            .findFirst()
+            .orElse(null);
+
+        if (cancelOrder != null && cancelOrder.cancelOrder()) {
+            orders.add(cancelOrder);
+            bufferUtil.addObjectsToBuff(TaxiOrder.class, orders);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Получить все работающие в текущий момент такси
+     * @return List работающих такси
+     */
+    public List<Taxi> getAllWorkingTaxis() {
+        return getOrders()
+                .stream()
+                .filter(TaxiOrder::isNotEnded)
+                .map(TaxiOrder::getTaxi)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Получить все имеющиеся такси
+     * @return List всех такси
+     */
+    public List<Taxi> getAllTaxis() {
+        return new ArrayList<>(taxis);
     }
 
     private HashSet<TaxiOrder> getOrders() {
@@ -127,11 +155,7 @@ public class TaxiService {
 
     private Taxi findFreeTaxi() {
         Set<Taxi> freeTaxi = new HashSet<>(taxis);
-        freeTaxi.removeAll(
-                getOrders().stream()
-                    .filter(TaxiOrder::isNotEnded)
-                    .map(TaxiOrder::getTaxi)
-                    .collect(Collectors.toList()));
+        freeTaxi.removeAll(getAllWorkingTaxis());
         if (freeTaxi.isEmpty()) {
             return null;
         }
@@ -152,5 +176,13 @@ public class TaxiService {
     private long getOrderNum() {
         numberOfLastOrder += 1;
         return numberOfLastOrder;
+    }
+
+    private Long getMaxOrderNum() {
+        return getOrders()
+                .stream()
+                .map(TaxiOrder::getOrderNumber)
+                .max(Long::compareTo)
+                .orElse(0L);
     }
 }

@@ -1,5 +1,7 @@
 package com.tsel.app.service;
 
+import static com.tsel.app.service.TimeService.DATE_FORMATTER;
+import static java.util.Collections.emptyMap;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
@@ -7,8 +9,10 @@ import static java.util.Optional.ofNullable;
 import com.tsel.app.entity.community.PublicTransportRoute;
 import com.tsel.app.entity.taxi.TaxiOrder;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
@@ -20,7 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 public class CashService {
 
-    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    public static final String TAXI_PROFIT_KEY = "taxi.profit";
+    public static final String TAXI_EXPENSES_KEY = "taxi.expenses";
+    public static final String PUBLIC_PROFIT_KEY = "public.profit";
+    public static final String PUBLIC_EXPENSES_KEY = "public.expenses";
 
     private TaxiService taxiService;
     private PublicTransportService transportService;
@@ -32,55 +39,34 @@ public class CashService {
      * @param end Конец периода
      * @return Доход в рублях
      */
-    public Optional<Double> getIncomeForPeriod(LocalDate start, LocalDate end) {
-        if (isNotNormalDates(start, end)) {
-            log.warn("Start date \"{}\" is after end date \"{}\"", start.format(FORMATTER), end.format(FORMATTER));
-            return empty();
+    public Map<String, Double> getIncomeForPeriod(LocalDate start, LocalDate end) {
+        if (end.isBefore(start)) {
+            log.warn("Start date \"{}\" is after end date \"{}\"", start.format(DATE_FORMATTER), end.format(DATE_FORMATTER));
+            return emptyMap();
         }
 
         if (end.isAfter(timeService.now().toLocalDate())) {
-            log.warn("End time \"{}\" late than now \"{}\"", end.format(FORMATTER), timeService.now().format(FORMATTER));
-            end = timeService.now().toLocalDate();
-        }
-        return of(getTaxiIncomeForPeriod(start, end) + getPublicTransportIncomeForPeriod(start, end));
-    }
-
-    /**
-     * Получить все доходы автопарка за период по типу транспорта
-     * @param transportType Тип транспорта
-     * @param start Начало периода
-     * @param end Конец периода
-     * @return Доход в рублях
-     */
-    public Optional<Double> getIncomeForPeriodByTransportType(String transportType, LocalDate start, LocalDate end) {
-        if (isNotNormalDates(start, end)) {
-            log.warn("Start date \"{}\" is after end date \"{}\"", start.format(FORMATTER), end.format(FORMATTER));
-            return empty();
-        }
-
-        if (end.isAfter(timeService.now().toLocalDate())) {
-            log.warn("End time \"{}\" late than now \"{}\"", end.format(FORMATTER), timeService.now().format(FORMATTER));
+            log.warn("End time \"{}\" late than now \"{}\"", end.format(DATE_FORMATTER), timeService.now().format(DATE_FORMATTER));
             end = timeService.now().toLocalDate();
         }
 
-        if (transportType.equalsIgnoreCase("taxi") || transportType.equalsIgnoreCase("такси")) {
-            return of(getTaxiIncomeForPeriod(start, end));
-        } else {
-            return ofNullable(getPublicTransportIncomeForPeriodByType(transportType, start, end));
-        }
+        Map<String, Double> incomeMap = new HashMap<>(getTaxiIncomeForPeriod(start, end));
+        incomeMap.putAll(getPublicTransportIncomeForPeriod(start, end));
+        return incomeMap;
     }
 
-    private double getTaxiIncomeForPeriod(LocalDate start, LocalDate end) {
-        double sum = 0.0;
+    private Map<String, Double> getTaxiIncomeForPeriod(LocalDate start, LocalDate end) {
+        double profit = 0.0;
+        double expenses = 0.0;
         do {
             List<TaxiOrder> orders = taxiService.getOrderByDate(start);
             // Count profit
-            sum += orders.stream()
+            profit += orders.stream()
                 .map(TaxiOrder::getPrice)
                 .reduce(Double::sum)
                 .orElse(0.0);
             // Count expenses
-            sum -= orders.stream()
+            expenses += orders.stream()
                 .map(order -> order.getTripLength() * order.getTaxi().getCarClass().getCostPerKilometer())
                 .reduce(Double::sum)
                 .orElse(0.0);
@@ -88,44 +74,35 @@ public class CashService {
             start = start.plusDays(1);
         } while (start.isBefore(end));
 
-        return sum;
+        Map<String, Double> incomeMap = new HashMap<>();
+        incomeMap.put(TAXI_PROFIT_KEY, profit);
+        incomeMap.put(TAXI_EXPENSES_KEY, expenses);
+        return incomeMap;
     }
 
-    private Double getPublicTransportIncomeForPeriodByType(String type, LocalDate start, LocalDate end) {
-        List<PublicTransportRoute> transportRoutes = transportService.getRoutesByTimePeriod(start, end);
-        List<PublicTransportRoute> routes = transportRoutes.stream()
-            .filter(t -> t.getTransport().getTransportType().getType().equalsIgnoreCase(type))
-            .collect(Collectors.toList());
-
-        if (routes.isEmpty() && !transportRoutes.isEmpty()) {
-            return null;
-        }
-
-        return countProfitToTransport(routes);
-    }
-
-    private double getPublicTransportIncomeForPeriod(LocalDate start, LocalDate end) {
+    private Map<String, Double> getPublicTransportIncomeForPeriod(LocalDate start, LocalDate end) {
         return countProfitToTransport(transportService.getRoutesByTimePeriod(start, end));
     }
 
-    private double countProfitToTransport(List<PublicTransportRoute> routes) {
-        double sum = 0.0;
+    private Map<String, Double> countProfitToTransport(List<PublicTransportRoute> routes) {
+        double profit = 0.0;
+        double expenses = 0.0;
+
         // Count profit
-        sum += routes.stream()
+        profit += routes.stream()
             .map(t -> t.getNumOfPassengers() * t.getTransport().getCostByTicket())
             .reduce(Double::sum)
             .orElse(0.0);
 
         // Count expenses
-        sum -= routes.stream()
+        expenses += routes.stream()
             .map(t -> t.getPathLength() * t.getTransport().getFuelPerKilometer())
             .reduce(Double::sum)
             .orElse(0.0);
 
-        return sum;
-    }
-
-    private boolean isNotNormalDates(LocalDate start, LocalDate end) {
-        return end.isBefore(start);
+        Map<String, Double> incomeMap = new HashMap<>();
+        incomeMap.put(PUBLIC_PROFIT_KEY, profit);
+        incomeMap.put(PUBLIC_EXPENSES_KEY, expenses);
+        return incomeMap;
     }
 }
